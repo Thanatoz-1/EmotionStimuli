@@ -66,6 +66,7 @@ def perform_op(op:str, from_alignms:dict, to_alignms:dict):
         
     return nxt_from_alignms, nxt_to_alignms
 
+
 def align_spans(gld_alignms:dict, prd_alignms:dict, op=['delO','no-choice','intrsct']) -> dict:
     #nxt_gld = copy.deepcopy(gld_alignms)
     #nxt_prd = copy.deepcopy(prd_alignms)
@@ -88,6 +89,7 @@ def align_spans(gld_alignms:dict, prd_alignms:dict, op=['delO','no-choice','intr
         op.pop(0)
         return align_spans(gld_alignms, prd_alignms, op)
 
+
 def gen_poss_align(frm:list, to:list) -> dict:
     from_sets = [set(span) for span in frm]
     to_sets = [set(span) for span in to]
@@ -99,6 +101,7 @@ def gen_poss_align(frm:list, to:list) -> dict:
             if len(intrsct) > 0:
                 poss_align[i][j] = (list(to[j].values())[0],len(intrsct))
     return poss_align
+
 
 def jaccard_score(y_true:dict, y_pred:dict, ib=True):
     """Calculate the jaccard score of the provided sequence slice
@@ -125,6 +128,7 @@ def jaccard_score(y_true:dict, y_pred:dict, ib=True):
             pass
     js = float(j_intersection / len(j_union))
     return js
+
 
 def calc_precision(tp, fp):
     """Python function for calculating precision
