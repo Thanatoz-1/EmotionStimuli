@@ -1,12 +1,13 @@
 import random, json
 
 class Data:
-    def __init__(self):
+    def __init__(self, filename:str, corpora=['eca', 'emotion-stimulus', 'reman', 'gne']):
         self.data = []
         self.splits = []
         self.splitinfo = ['data not split']
         self.corpusinfo = ['no corpora loaded']
-    
+        self.loadFromFile(filename, corpora)
+
     def loadFromFile(self, filename:str, corpora=['eca', 'emotion-stimulus', 'reman', 'gne']):
         self.corpusinfo = corpora
         with open(filename,'r') as file:
@@ -16,7 +17,7 @@ class Data:
             if instance['dataset'] in corpora:
                 data.append(instance)            
         self.data = data
-        self.splits = data
+        self.splits.append(data)
 
     def splitData(self, splits=[0.8,0.1,0.1]):
         if sum(splits) != 1:

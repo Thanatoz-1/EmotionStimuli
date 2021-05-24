@@ -1,1 +1,2 @@
-from .metrics import jaccard_score, tp, fp, tn, fn, precision, recall, fscore
+from .metrics import align_spans, gen_poss_align, jaccard_score, calc_precision, calc_recall, calc_fscore
+# from .metrics import get_tp, get_fp, get_tn, fn

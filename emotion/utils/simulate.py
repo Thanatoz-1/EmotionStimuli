@@ -1,10 +1,11 @@
+from emotion.dataset.dataset import Dataset
 import random
 
-def simPred(dataset):
+def simPred(dataset:Dataset):
     for inst in dataset.getInst():
-        for label in inst.getLabelset():
+        for label in inst.getLabels():
             tokens = inst.getTokens()
-            tags = 7*['O'] + 1*['B'] + 2*['I']
+            tags = 60*['O'] + 15*['B'] + 25*['I']
             random.shuffle(tags)
             prediction = []
             for i in range(len(tokens)):
