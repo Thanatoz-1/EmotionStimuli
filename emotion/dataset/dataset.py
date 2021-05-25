@@ -97,8 +97,8 @@ class Instance:
 
     def __init__(self, id:str, tokens:list):
         self.id = id
-        self.tokens = tokens
-        self.gold_annots = {}
+        self.tokens = tokens #['the', 'household', 'will', 'never']
+        self.gold_annots = {} #{'exp':['O', 'O', 'B', 'I']}
         self.gold_spans = {} # = {Exp:[{},{}], Tar:[{0:'O',1:'O',2:'O'},{3:'B', 4:'I', 5:'I'},{6:'O', 7:'O'}],}
         self.pred_annots = {}
         self.pred_spans = {} # = {Exp:[{},{}], Tar:[{0:'O',1:'O'}, {2:'B',3:'I', 4:'I', 5:'I'},{6:'O', 7:'O'}],}
