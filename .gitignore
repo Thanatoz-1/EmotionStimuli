@@ -7,6 +7,8 @@ __pycache__/
 *.so
 # Data Files
 data/
+# Notebook folder
+nbs/
 # Distribution / packaging
 .Python
 build/
