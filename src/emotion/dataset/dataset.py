@@ -27,7 +27,7 @@ def conv2span(annotation):
 
 class Dataset:
 
-    def __init__(self, data:Data, splt=0):
+    def __init__(self, data:Data, splt:int=0):
         self.instances = []
         self.labels = set()
         self.counts = {}
@@ -35,7 +35,7 @@ class Dataset:
         self.LoadData(data, splt)
 
         
-    def LoadData(self, data:Data, splt=0):
+    def LoadData(self, data:Data, splt:int=0):
         loaded_inst = []
         source = data.ReturnSplit(splt)
         for i in range(len(source)):
@@ -98,7 +98,7 @@ class Instance:
     def __init__(self, id:str, tokens:list):
         self.id = id
         self.tokens = tokens #['the', 'household', 'will', 'never']
-        self.gold_annots = {} #{'exp':['O', 'O', 'B', 'I']}
+        self.gold_annots = {} # {'experiencer':[('the','O'),('household','O'),('will','B'),('never','I')]}
         self.gold_spans = {} # = {Exp:[{},{}], Tar:[{0:'O',1:'O',2:'O'},{3:'B', 4:'I', 5:'I'},{6:'O', 7:'O'}],}
         self.pred_annots = {}
         self.pred_spans = {} # = {Exp:[{},{}], Tar:[{0:'O',1:'O'}, {2:'B',3:'I', 4:'I', 5:'I'},{6:'O', 7:'O'}],}
@@ -107,7 +107,8 @@ class Instance:
 
 
     def SetGold(self, label:str, annotation:list):
-        self.gold_annots[label] = annotation
+        self.gold_annots[label] = [tup for tup in zip(self.tokens, annotation)]
+            
         span = conv2span(annotation)
         self.gold_spans[label] = span
         
