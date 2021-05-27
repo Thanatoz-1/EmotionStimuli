@@ -1,10 +1,12 @@
+from emotion.dataset.dataset import Dataset
 from ..utils import counter, logging
 
 logger = logging.getLogger(__name__)
 
 
 class HMM:
-    def __init__(self) -> None:
+    def __init__(self, label) -> None:
+        self.label = label
         self.words_with_tags = list()
         self.word_given_tag_dict = dict()
         self.transitionMatrix = None
@@ -117,7 +119,7 @@ class HMM:
         words = [word for word, tag in sentence]
         return list(zip(words, FinalTagSequence))
 
-    def train(self, dataset):
+    def train(self, dataset:Dataset):
         """
         Dataset should be in the following form:
         List[List[tuple(str, str)]]
@@ -127,17 +129,18 @@ class HMM:
                 (this, "O"),
                 ("is", "B"),
                 ("a", "O),
-                ("sentence", "O")
+                ("sentence", "O"),
+                ('.','.')
             ]
         ]
         """
-        for sent in dataset:
-            for tup in sent:
+        for sent in dataset.ReturnInst():
+            for tup in sent.ReturnGoldAnnots(self.label):
                 self.words_with_tags.append((tup[0].lower(), tup[1]))
         self.tagCounter = counter(tag for word, tag in self.words_with_tags)
         # Create the word given tag dictionary
-        for sent in dataset:
-            for word, tag in sent:
+        for sent in dataset.ReturnInst():
+            for word, tag in sent.ReturnGoldAnnots(self.label):
                 try:
                     self.word_given_tag_dict[(word.lower(), tag)] += 1
                 except:
@@ -150,11 +153,12 @@ class HMM:
             for jdx, tagj in enumerate(self.uniqueTags):
                 self.transitionMatrix[idx][jdx] = self.prob_tag2_given_tag1(tagj, tagi)
 
-    def predict(self, sentence: list, verbose=False):
-        if type(sentence) == str:
+    def predictSentence(self, sentence: list, verbose=False):
+        '''if type(sentence) == str:
             tokens = [(i.lower(), "O") for i in sentence.split()]
         else:
-            tokens = sentence
+            tokens = sentence'''
+        tokens = [(i.lower(), "O") for i in sentence]
         prediction = self.viterbi(tokens)
         if verbose:
             prediction = [
@@ -162,3 +166,22 @@ class HMM:
                 for i, j in zip(tokens, prediction)
             ]
         return prediction
+
+    def predictDataset(self, dataset:Dataset, verbose=False):
+        '''if type(sentence) == str:
+            tokens = [(i.lower(), "O") for i in sentence.split()]
+        else:
+            tokens = sentence'''
+        for inst in dataset.ReturnInst():
+            tokens = inst.ReturnTokens()
+            tokens = [(i.lower(), "O") for i in tokens]
+            prediction = self.viterbi(tokens)
+            #if verbose:
+            #    prediction = [
+            #        {"token": i[0], "gold": i[1], "pred": j[1]}
+            #        for i, j in zip(tokens, prediction)
+            #    ]
+            
+            #inst.SetPred(self.label, prediction)
+            inst.pred_annots[self.label] = prediction
+            return prediction

@@ -1,5 +1,6 @@
-from ..evaluation import align_spans, gen_poss_align, jaccard_score, calc_precision, calc_recall, calc_fscore
-from ..utils import Data
+from emotion.evaluation import align_spans, gen_poss_align, jaccard_score, calc_precision, calc_recall, calc_fscore
+from emotion.utils import Data
+from emotion.baseline import HMM
 import random
 
 def conv2span(annotation):
@@ -28,11 +29,15 @@ def conv2span(annotation):
 class Dataset:
 
     def __init__(self, data:Data, splt:int=0):
-        self.instances = []
+        self.instances = [] # {id: inst, id: inst}
         self.labels = set()
         self.counts = {}
         self.metrics = {}
         self.LoadData(data, splt)
+
+    def predict(self, model:HMM):
+        for inst in self.instances:
+            inst.predict(model)
 
         
     def LoadData(self, data:Data, splt:int=0):
@@ -51,7 +56,7 @@ class Dataset:
                 self.labels.add(label)
                 instance.SetGold(label=label, annotation=src_annotations[label])
 
-            loaded_inst.append(instance)
+            #loaded_inst.append(instance)
 
         self.instances = loaded_inst
         self.ResetEval()
@@ -105,9 +110,19 @@ class Instance:
         self.labels = set()
         self.counts = {}
 
+    def predict(self, model):
+        self.pred_annots[model.label] = model.predictSentence(sentence=self.tokens, verbose=False)
+
 
     def SetGold(self, label:str, annotation:list):
-        self.gold_annots[label] = [tup for tup in zip(self.tokens, annotation)]
+        self.gold_annots[label] = []
+        for i in range(len(self.tokens)):
+            if self.tokens[i] != '.':
+                self.gold_annots[label].append((self.tokens[i],annotation[i]))
+            else:
+                self.gold_annots[label].append((self.tokens[i],'.'))
+
+        #self.gold_annots[label] = [tup for tup in zip(self.tokens, annotation)]
             
         span = conv2span(annotation)
         self.gold_spans[label] = span

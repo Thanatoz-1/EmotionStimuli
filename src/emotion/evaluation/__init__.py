@@ -1,4 +1,4 @@
-from .metrics import (
+'''from .metrics import (
     jaccard_score,
     tp,
     fp,
@@ -7,4 +7,13 @@ from .metrics import (
     precision,
     recall,
     fscore,
+)'''
+
+from emotion.evaluation.metrics import (
+    perform_op,
+    align_spans,gen_poss_align,
+    jaccard_score,
+    calc_precision,
+    calc_recall,
+    calc_fscore
 )
