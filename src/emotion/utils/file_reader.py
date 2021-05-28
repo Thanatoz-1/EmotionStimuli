@@ -1,39 +1,57 @@
-import random, json
+import random, json, copy
 
 
 class Data:
-    def __init__(self, filename: str, corpora=["eca", "emotion-stimulus", "reman", "gne"]):
+    def __init__(
+        self,
+        filename: str,
+        labelset: list = ["cause", "cue", "experiencer", "target"],
+        corpora: list = ["eca", "emotion-stimulus", "reman", "gne"],
+        splits: list = [1],
+    ):
         self.data = []
-        self.splits = []
-        self.ReadFile(filename, corpora)
+        self.splits = splits
+        self.split_data = []
 
-    def ReadFile(self, filename: str, corpora=["eca", "emotion-stimulus", "reman", "gne"]):
+        self.ReadFile(filename, labelset, corpora)
+        self.SplitData()
+
+    def ReadFile(self, filename: str, labelset, corpora):
+        self.data.clear()
         with open(filename, "r") as file:
-            raw_data = json.load(file)
-        read_data = []
-        for instance in raw_data:
+            all_data = json.load(file)
+
+        for instance in all_data:
             if instance["dataset"] in corpora:
-                read_data.append(instance)
-        self.data = read_data
-        self.splits.append(read_data)
+                relevant = copy.deepcopy(instance)
+                for label in instance["annotations"]:
+                    if label not in labelset:
+                        relevant["annotations"].pop(label)
+                self.data.append(relevant)
 
-    def SplitData(self, splits=[0.8, 0.1, 0.1]):
-        if sum(splits) != 1:
-            print("Splits must sum up to 1")
-            return None
-
-        self.splits = []
-
+    def SplitData(self):
+        self.split_data.clear()
+        cpy_data = copy.deepcopy(self.data)
         random.seed(10)
-        random.shuffle(self.data)
-        unsplit = self.data[:]
-        for splt in splits:
-            splt_point = int(splt * len(self.data))
-            self.splits.append(unsplit[:splt_point])
-            unsplit = unsplit[splt_point:]
+        random.shuffle(cpy_data)
+        not_split = copy.deepcopy(cpy_data)
+        for splt in self.splits:
+            splt_point = int(splt * len(cpy_data))
+            self.split_data.append(not_split[:splt_point])
+            not_split = not_split[splt_point:]
 
-    def ReturnSplit(self, splt: int):
-        return self.splits[splt]
+    def conv2brown(self):
+        for instance in self.data:
+            tokens = instance["tokens"]
+            orig = instance["annotations"]
+            brown = {}
+            for label in orig:
+                brown[label] = []
+                for tup in zip(tokens, orig[label]):
+                    if tup[0] == ".":
+                        brown[label].append((tup[0], "."))
+                    else:
+                        brown[label].append((tup[0].lower(), tup[1]))
+            instance["annotations"] = brown
 
-    def ReturnData(self):
-        return self.data
+        self.SplitData()
