@@ -37,7 +37,7 @@ test.instances["testid"].InitPred(label="experiencer")"""
 ################################################################################
 
 hmm_exp = HMM("experiencer")
-hmm_exp.train(train)
+hmm_exp.train(dataset=train)
 # print(hmm_exp.transitionMatrix)
 # print(hmm_exp.uniqueTags)
 
@@ -50,6 +50,7 @@ hmm_exp.predictDataset(dataset=test)
 ################################################################################
 
 eval_gne2gne_exp = Evaluation(dataset=test, threshold=0.8)
+
 print(eval_gne2gne_exp.precision)
 print(eval_gne2gne_exp.recall)
 print(eval_gne2gne_exp.fscore)
