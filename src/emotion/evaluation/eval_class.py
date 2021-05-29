@@ -109,6 +109,7 @@ class Evaluation:
 
     def SaveEval(self, filename: str) -> None:
         with open(filename, "w") as file:
+            file.write(f"size:\t\t\t\t{len(self.documentation)}\n")
             file.write(f"evaluated label:\t{self.label}\n")
             file.write(f"threshold:\t\t\t{self.threshold}\n")
             file.write(f"amount of tp:\t\t{self.tp}\n")

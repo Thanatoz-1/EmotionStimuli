@@ -1,0 +1,9 @@
+size:				811
+evaluated label:	target
+threshold:			0.8
+amount of tp:		97
+amount of fn:		442
+amount of fp:		167
+precision:			0.36742424242424243
+recall:				0.17996289424860853
+f-score:			0.24159402241594025

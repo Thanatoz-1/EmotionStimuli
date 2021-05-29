@@ -12,7 +12,6 @@ class Dataset:
         self.LoadData(data, splt)
 
     def LoadData(self, data: Data, splt: int = 0):
-        # loaded_inst = []
         source = data.split_data[splt]
         for i in range(len(source)):
             src_inst = source[i]
@@ -26,13 +25,8 @@ class Dataset:
                 self.labels.add(label)
                 self.corpora.add(src_corpus)
                 instance.SetGold(label=label, annotation=src_annotations[label])
-                instance.InitPred(label=label)
+                # instance.InitPred(label=label)
                 self.instances[src_id] = instance
-
-            # loaded_inst.append(instance)
-
-        # self.instances = loaded_inst
-        # self.ResetEval()
 
     """def EvalCounts(self, threshold: int = 0.8):
         for sentence in self.instances:
@@ -86,10 +80,10 @@ class Instance:
         # span = conv2span(annotation)
         # self.gold_spans[label] = span
 
-    def InitPred(self, label: str):
+    """def InitPred(self, label: str):
         self.pred[label] = [(tok.lower(), "") for tok in self.tokens]
         # span = conv2span(annotation)
-        # self.pred_spans[label] = span
+        # self.pred_spans[label] = span"""
 
     """def ResetCounts(self):
         for label in self.labels:

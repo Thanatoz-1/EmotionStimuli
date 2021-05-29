@@ -31,4 +31,4 @@ eval_emo_stim = Evaluation(dataset=test, label="cause", threshold=0.8)
 
 # eval_emo_stim.SaveDoc("doc_emo_stim.json")
 
-eval_emo_stim.SaveEval("eval_emo_stim.txt")
+eval_emo_stim.SaveEval("tests/emo-stim/eval_emo_stim.txt")

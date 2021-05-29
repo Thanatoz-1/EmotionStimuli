@@ -1,0 +1,9 @@
+size:				344
+evaluated label:	cue-joy
+threshold:			0.8
+amount of tp:		13
+amount of fn:		30
+amount of fp:		51
+precision:			0.203125
+recall:				0.3023255813953488
+f-score:			0.24299065420560748

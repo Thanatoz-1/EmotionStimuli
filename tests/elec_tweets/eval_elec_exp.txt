@@ -1,0 +1,9 @@
+size:				811
+evaluated label:	experiencer
+threshold:			0.8
+amount of tp:		0
+amount of fn:		7
+amount of fp:		6
+precision:			0.0
+recall:				0.0
+f-score:			0

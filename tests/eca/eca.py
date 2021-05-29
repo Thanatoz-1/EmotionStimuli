@@ -31,4 +31,4 @@ eval_eca = Evaluation(dataset=test, label="cause", threshold=0.8)
 
 # eval_eca.SaveDoc("doc_eca.json")
 
-eval_eca.SaveEval("eca.txt")
+eval_eca.SaveEval("tests/eca/eval_eca.txt")
