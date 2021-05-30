@@ -43,9 +43,9 @@ eval_elec_cue = Evaluation(dataset=test, label="cue", threshold=0.8)
 eval_elec_cse = Evaluation(dataset=test, label="cause", threshold=0.8)
 
 # eval_elec_exp.SaveDoc("tests/elec_tweets/doc_elec_exp.json")
-# eval_elec_tar.SaveDoc("tests/elec_tweets/doc_elec_tar.txt")
-# eval_elec_cue.SaveDoc("tests/elec_tweets/doc_elec_cue.txt")
-# eval_elec_cse.SaveDoc("tests/elec_tweets/doc_elec_cse.txt")
+# eval_elec_tar.SaveDoc("tests/elec_tweets/doc_elec_tar.json")
+# eval_elec_cue.SaveDoc("tests/elec_tweets/doc_elec_cue.json")
+# eval_elec_cse.SaveDoc("tests/elec_tweets/doc_elec_cse.json")
 
 eval_elec_exp.SaveEval("tests/elec_tweets/eval_elec_exp.txt")
 eval_elec_tar.SaveEval("tests/elec_tweets/eval_elec_tar.txt")

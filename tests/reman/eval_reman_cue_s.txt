@@ -3,7 +3,7 @@ evaluated label:	cue-sadness
 threshold:			0.8
 amount of tp:		8
 amount of fn:		31
-amount of fp:		49
-precision:			0.14035087719298245
+amount of fp:		46
+precision:			0.14814814814814814
 recall:				0.20512820512820512
-f-score:			0.16666666666666666
+f-score:			0.17204301075268816

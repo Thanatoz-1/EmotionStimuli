@@ -3,7 +3,7 @@ evaluated label:	cue-anger
 threshold:			0.8
 amount of tp:		1
 amount of fn:		29
-amount of fp:		47
-precision:			0.020833333333333332
+amount of fp:		42
+precision:			0.023255813953488372
 recall:				0.03333333333333333
-f-score:			0.025641025641025637
+f-score:			0.0273972602739726

@@ -11,5 +11,4 @@ for instance in data:
 errors = list()
 for instance in reman:
     if "noemo" in instance["emotions"] and len(instance["annotations"]) != 0:
-        errors.append(instance["id"])
-print(errors)
+        print(instance["annotations"].keys())

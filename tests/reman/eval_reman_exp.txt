@@ -3,7 +3,7 @@ evaluated label:	experiencer
 threshold:			0.8
 amount of tp:		37
 amount of fn:		183
-amount of fp:		95
-precision:			0.2803030303030303
+amount of fp:		96
+precision:			0.2781954887218045
 recall:				0.16818181818181818
-f-score:			0.21022727272727273
+f-score:			0.2096317280453258

@@ -3,7 +3,7 @@ evaluated label:	cue-other
 threshold:			0.8
 amount of tp:		0
 amount of fn:		79
-amount of fp:		20
+amount of fp:		47
 precision:			0.0
 recall:				0.0
 f-score:			0

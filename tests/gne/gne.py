@@ -43,9 +43,9 @@ eval_gne_cue = Evaluation(dataset=test, label="cue", threshold=0.8)
 eval_gne_cse = Evaluation(dataset=test, label="cause", threshold=0.8)
 
 # eval_gne_exp.SaveDoc("tests/gne/doc_gne_exp.json")
-# eval_gne_tar.SaveDoc("tests/gne/doc_gne_tar.txt")
-# eval_gne_cue.SaveDoc("tests/gne/doc_gne_cue.txt")
-eval_gne_cse.SaveDoc("tests/gne/doc_gne_cse.txt")
+# eval_gne_tar.SaveDoc("tests/gne/doc_gne_tar.json")
+# eval_gne_cue.SaveDoc("tests/gne/doc_gne_cue.json")
+eval_gne_cse.SaveDoc("tests/gne/doc_gne_cse.json")
 
 # eval_gne_exp.SaveEval("tests/gne/eval_gne_exp.txt")
 # eval_gne_tar.SaveEval("tests/gne/eval_gne_tar.txt")
