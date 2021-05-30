@@ -29,6 +29,6 @@ hmm_eca.predictDataset(dataset=test)
 # evaluate the predictions and return precicion, recall and f-score
 eval_eca = Evaluation(dataset=test, label="cause", threshold=0.8)
 
-# eval_eca.SaveDoc("doc_eca.json")
+# eval_eca.SaveDoc("tests/eca/doc_eca.json")
 
 eval_eca.SaveEval("tests/eca/eval_eca.txt")

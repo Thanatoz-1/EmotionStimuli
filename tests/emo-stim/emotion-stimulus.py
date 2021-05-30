@@ -29,6 +29,6 @@ hmm_emo_stim.predictDataset(dataset=test)
 # evaluate the predictions and return precicion, recall and f-score
 eval_emo_stim = Evaluation(dataset=test, label="cause", threshold=0.8)
 
-# eval_emo_stim.SaveDoc("doc_emo_stim.json")
+# eval_emo_stim.SaveDoc("tests/emo-stim/doc_emo_stim.json")
 
 eval_emo_stim.SaveEval("tests/emo-stim/eval_emo_stim.txt")
