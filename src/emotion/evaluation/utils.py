@@ -1,4 +1,4 @@
-import copy
+import copy, random
 
 
 def gen_poss_align(frm: list, to: list) -> dict:
@@ -17,8 +17,6 @@ def gen_poss_align(frm: list, to: list) -> dict:
 def align_spans(
     gld_alignms: dict, prd_alignms: dict, ops=["delO", "no-choice", "intrsct"]
 ) -> dict:
-    # nxt_gld = copy.deepcopy(gld_alignms)
-    # nxt_prd = copy.deepcopy(prd_alignms)
 
     if len([span for span in gld_alignms if len(gld_alignms[span]) > 1]) == 0:
         gld_aligned = True
