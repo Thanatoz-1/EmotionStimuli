@@ -1,5 +1,5 @@
-from emotion.dataset.dataset import Dataset
-from ..utils import counter, logging
+__author__ = "Tushar Dhyani"
+from ..utils import Dataset, counter, logging
 
 logger = logging.getLogger(__name__)
 

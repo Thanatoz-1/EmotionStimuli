@@ -2,8 +2,8 @@ size:				344
 evaluated label:	cue-anger
 threshold:			0.8
 amount of tp:		1
-amount of fn:		29
-amount of fp:		42
-precision:			0.023255813953488372
-recall:				0.03333333333333333
-f-score:			0.0273972602739726
+amount of fn:		35
+amount of fp:		9
+precision:			0.1
+recall:				0.027777777777777776
+f-score:			0.04347826086956522

@@ -2,8 +2,8 @@ size:				1000
 evaluated label:	experiencer
 threshold:			0.8
 amount of tp:		220
-amount of fn:		376
+amount of fn:		482
 amount of fp:		266
 precision:			0.45267489711934156
-recall:				0.3691275167785235
-f-score:			0.40665434380776344
+recall:				0.31339031339031337
+f-score:			0.37037037037037035

@@ -1,4 +1,5 @@
-from emotion.utils import Data
+__author__ = "Maximilian Wegge"
+from .file_reading import Data
 
 
 class Dataset:
@@ -6,8 +7,6 @@ class Dataset:
         self.instances = {}  # {id0: inst0, id1: inst1}
         self.labels = set()
         self.corpora = set()
-        # self.counts = {}
-        # self.metrics = {}
 
         self.LoadData(data, splt)
 

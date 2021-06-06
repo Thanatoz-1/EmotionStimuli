@@ -5,6 +5,8 @@ __pycache__/
 .vscode/
 # C extensions
 *.so
+# MacOS system files
+.DS_Store
 # Data Files
 data/
 # Notebook folder

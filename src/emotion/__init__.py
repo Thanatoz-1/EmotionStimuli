@@ -1,3 +1,3 @@
 from .baseline import HMM
 from .evaluation import Evaluation
-from .dataset import Dataset
+from .utils import Data, Dataset

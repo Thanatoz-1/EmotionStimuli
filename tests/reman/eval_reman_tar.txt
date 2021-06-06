@@ -2,8 +2,8 @@ size:				344
 evaluated label:	target
 threshold:			0.8
 amount of tp:		2
-amount of fn:		148
-amount of fp:		66
-precision:			0.029411764705882353
-recall:				0.013333333333333334
-f-score:			0.01834862385321101
+amount of fn:		160
+amount of fp:		29
+precision:			0.06451612903225806
+recall:				0.012345679012345678
+f-score:			0.02072538860103627
