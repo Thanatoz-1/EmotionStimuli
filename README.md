@@ -27,7 +27,7 @@ python setup.py install
 ```
 
 ## Using the package
-Once the package has been installed, you can call the package as follows for one particular label. In this case, the label is _"cause"_:
+Once the package has been installed, you can call the package as follows for one particular emotion role. In this case, the role is _"cause"_:
 ```python
 from emotion import HMM
 
@@ -40,7 +40,7 @@ from emotion.utils import Data
 # Using the Data class
 gne_all = Data(
     filename="data/dataset.json",
-    labelset=["experiencer", "target", "cue", "cause"],
+    roles=["experiencer", "target", "cue", "cause"],
     corpora=["gne"],
     splits=[0.8, 0.2],
 )
@@ -53,33 +53,47 @@ The `Data` class can also be used to create dataset splits which could further b
 One end to end training of a dataset is provided below for reference. 
 
 ```python
-from emotion import HMM
-from emotion import Evaluation
-from emotion.utils import Data
-from emotion.dataset import Dataset, Instance
+from emotion import Data, Dataset, HMM, Evaluation
 
-intented_dataset = "gne"
-intented_label = "experiencer"
+intended_corpus = "gne"
+intended_role = "experiencer"
 
+# Load data from input file.
+# Only load annotations for the emotion role "experiencer" from the "GNE" corpus.
+# Split the data into two subsets, containing 80% and 20% of the total instances respectively (randomly selected).
 gne_exp = Data(
     filename="data/dataset.json",
-    labelset=[intented_label],
-    corpora=[intented_dataset],
+    roles=[intended_role],
+    corpora=[intended_corpus],
     splits=[0.8, 0.2],
 )
 
+# Convert the loaded annoations to Brown-format.
 gne_exp.conv2brown()
 
-train = test = Dataset(data=gne_exp, splt=0)
-test = Dataset(data=gne_exp, splt=0)
+# Store the instances of a specific subset in the Dataset object.
+# Each instance is stored as an Instance object, featuring attributes for 
+# tokens as well as gold and predicted annotations.
+train_gne = Dataset(data=gne_exp, splt=0)
+test_gne = Dataset(data=gne_exp, splt=1)
 
-model = HMM(intented_label)
-model.train(dataset=train)
-model.predictDataset(dataset=test)
+# Train the HMM model for the intended emotion role.
+model_exp_gne = HMM(intended_role)
+model_exp_gne.train(dataset=train_gne)
 
-# Evaluating the model and saving the outputs
-results = Evaluation(dataset=test, label=intented_label, threshold=0.8)
-eval_gne_exp.SaveEval("output.txt")
+# Predict the annotations for the intended role using the previously trained model.
+model_exp_gne.predictDataset(dataset=test_gne)
+
+# Evaluate the model and save the results.
+# A prediction evaluates only to a TP if the Jaccard score of the predicted and
+# the gold span is above the threshold of 0.8.
+# The parameter beta for calculating the f-score is set to 1.0.
+results = Evaluation(dataset=test, role=intended_role, threshold=0.8, beta=1.0)
+results.save_eval(eval_name="gne_exp", filename="output.json")
+
+# Additionally, save a detailed documentation of how
+# the evaluation was calculated.
+results.save_doc(filename="documentation.json")
 ```
 
 ## Results
