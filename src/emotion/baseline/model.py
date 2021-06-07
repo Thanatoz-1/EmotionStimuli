@@ -1,17 +1,36 @@
-from emotion.dataset.dataset import Dataset
-from ..utils import counter, logging
+__author__ = "Tushar Dhyani"
+from ..utils import Dataset, counter, logging
 
 logger = logging.getLogger(__name__)
 
 
 class HMM:
-    def __init__(self, label) -> None:
+    def __init__(self, label=None) -> None:
+        """
+        Note that this implementation assumes that n, m, and T are small
+        enough not to require underflow mitigation.
+
+        Required Inputs:
+        - transmission_prob: an (n+2) x (n+2) numpy array, initial, where n is
+        the number of hidden states
+        - emission_prob: an (m x n) 2-D numpy array, where m is the number of
+        possible observations
+
+        Optional Input:
+        - obs: a list of observation labels, in the same order as their
+        occurence within the emission probability matrix; otherwise, will assume
+        that the emission probabilities are in alpha-numerical order.
+        """
         self.label = label
         self.words_with_tags = list()
         self.word_given_tag_dict = dict()
         self.transitionMatrix = None
+        self.uniqueTags = []
 
     def prob_word_given_tag(self, word, tag):
+        """
+        Estimates transmission probabilities from word to tag.
+        """
         try:
             ans = self.word_given_tag_dict[word.lower(), tag] / self.tagCounter[tag]
         except:
@@ -82,7 +101,7 @@ class HMM:
                         )
                         tempTagState.append(tag_state_prob)
                     maxTag = self.uniqueTags[tempTagState.index(max(tempTagState))]
-                    #                 print(f"Line 23: MaxTag: {maxTag}, TagCurr: {tag_curr}")
+                    # print(f"Line 23: MaxTag: {maxTag}, TagCurr: {tag_curr}")
                     prob_transition = self.transitionMatrix[
                         self.uniqueTags.index(maxTag)
                     ][self.uniqueTags.index(tag_curr)]
@@ -176,8 +195,9 @@ class HMM:
         else:
             tokens = sentence"""
         for id in dataset.instances:
+            # print(id)
             gold = dataset.instances[id].gold[self.label]
-            to_pred = dataset.instances[id].pred[self.label]
-            prediction = self.viterbi(to_pred)
+            to_predict = [(tok.lower(), "") for tok in dataset.instances[id].tokens]
+            prediction = self.viterbi(to_predict)
             dataset.instances[id].pred[self.label] = prediction
         return None

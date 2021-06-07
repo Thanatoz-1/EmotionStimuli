@@ -5,15 +5,20 @@ __pycache__/
 .vscode/
 # C extensions
 *.so
+<<<<<<< HEAD
 
 # Data 
+=======
+# MacOS system files
+.DS_Store
+
 data/
 
 #Notebooks
 nbs/
 
-# Temporarily docs
-docs/
+# # Temporarily docs
+# docs/
 
 # Distribution / packaging
 .Python
