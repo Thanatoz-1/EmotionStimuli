@@ -5,7 +5,22 @@ logger = logging.getLogger(__name__)
 
 
 class HMM:
-    def __init__(self, label) -> None:
+    def __init__(self, label=None) -> None:
+        """
+        Note that this implementation assumes that n, m, and T are small
+        enough not to require underflow mitigation.
+
+        Required Inputs:
+        - transmission_prob: an (n+2) x (n+2) numpy array, initial, where n is
+        the number of hidden states
+        - emission_prob: an (m x n) 2-D numpy array, where m is the number of
+        possible observations
+
+        Optional Input:
+        - obs: a list of observation labels, in the same order as their
+        occurence within the emission probability matrix; otherwise, will assume
+        that the emission probabilities are in alpha-numerical order.
+        """
         self.label = label
         self.words_with_tags = list()
         self.word_given_tag_dict = dict()
@@ -13,6 +28,9 @@ class HMM:
         self.uniqueTags = []
 
     def prob_word_given_tag(self, word, tag):
+        """
+        Estimates transmission probabilities from word to tag.
+        """
         try:
             ans = self.word_given_tag_dict[word.lower(), tag] / self.tagCounter[tag]
         except:
