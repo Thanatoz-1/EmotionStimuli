@@ -1,4 +1,5 @@
 <h1 align="center">Emotion Stimuli</h1>
+<hr style="height:10px;border-top:45px solid #fe0" />
 
 <div align="center">
 
@@ -18,11 +19,11 @@ Welcome to the project. Please continue your work.
 
 ## Installing the package 
 If you are running a linux machine with pip installed, then you can install the EmotionStimuli package using pip.
-```
+```bash
 pip install .
 ```
 In case if you have not installed pip or are facing trouble installing using git, you can install EmotionStimuli package using the provided setup.py
-```
+```bash
 python setup.py install
 ```
 
