@@ -1,3 +1,4 @@
+__author__ = "Maximilian Wegge"
 import random, json, copy
 
 
@@ -22,12 +23,19 @@ class Data:
             all_data = json.load(file)
 
         for instance in all_data:
+
             if instance["dataset"] in corpora:
-                relevant = copy.deepcopy(instance)
-                for label in instance["annotations"]:
-                    if label not in labelset:
-                        relevant["annotations"].pop(label)
-                self.data.append(relevant)
+                relevant_annots = {}
+                for label in labelset:
+                    if label in instance["annotations"]:
+                        relevant_annots[label] = instance["annotations"][label]
+                    else:
+                        relevant_annots[label] = len(instance["tokens"]) * ["O"]
+                instance["annotations"] = relevant_annots
+                self.data.append(instance)
+
+            else:
+                pass
 
     def SplitData(self):
         self.split_data.clear()
@@ -41,17 +49,16 @@ class Data:
             not_split = not_split[splt_point:]
 
     def conv2brown(self):
-        for instance in self.data:
-            tokens = instance["tokens"]
-            orig = instance["annotations"]
-            brown = {}
-            for label in orig:
-                brown[label] = []
-                for tup in zip(tokens, orig[label]):
-                    if tup[0] == ".":
-                        brown[label].append((tup[0], "."))
-                    else:
-                        brown[label].append((tup[0].lower(), tup[1]))
-            instance["annotations"] = brown
-
-        self.SplitData()
+        for splt in self.split_data:
+            for instance in splt:
+                tokens = instance["tokens"]
+                orig = instance["annotations"]
+                brown = {}
+                for label in orig:
+                    brown[label] = []
+                    for tup in zip(tokens, orig[label]):
+                        if tup[0] == ".":
+                            brown[label].append((tup[0], "."))
+                        else:
+                            brown[label].append((tup[0].lower(), tup[1]))
+                instance["annotations"] = brown

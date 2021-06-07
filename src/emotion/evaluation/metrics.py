@@ -1,4 +1,7 @@
-def calc_jaccard_score(y_true: dict, y_pred: dict, ib):
+__author__ = "Maximilian Wegge"
+
+
+def calc_jaccard_score(y_true: dict, y_pred: dict):
     """Calculate the jaccard score of the provided sequence slice
     Jaccard index = $\frac{Intersection of argument list}{Union of argument list}$
 
@@ -13,7 +16,7 @@ def calc_jaccard_score(y_true: dict, y_pred: dict, ib):
     j_intersection = 0
     for i in j_union:
         if i in y_true and i in y_pred:
-            if y_true[i] in ["B", "I"] and y_pred[i] in ["B", "I"] and ib:
+            if y_true[i] in ["B", "I"] and y_pred[i] in ["B", "I"]:
                 # B and I count as intersection
                 j_intersection += 1
             elif y_true[i] == y_pred[i]:

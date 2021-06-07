@@ -1,0 +1,9 @@
+size:				344
+evaluated label:	cue-sadness
+threshold:			0.8
+amount of tp:		8
+amount of fn:		37
+amount of fp:		9
+precision:			0.47058823529411764
+recall:				0.17777777777777778
+f-score:			0.25806451612903225

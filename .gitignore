@@ -5,8 +5,14 @@ __pycache__/
 .vscode/
 # C extensions
 *.so
+<<<<<<< HEAD
 
 # Data 
+=======
+# MacOS system files
+.DS_Store
+# Data Files
+>>>>>>> 192f4a521ba20583314e454f0dc0d1c29d4696d8
 data/
 
 #Notebooks

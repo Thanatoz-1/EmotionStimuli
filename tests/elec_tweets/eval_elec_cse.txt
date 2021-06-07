@@ -1,0 +1,9 @@
+size:				811
+evaluated label:	cause
+threshold:			0.8
+amount of tp:		44
+amount of fn:		474
+amount of fp:		145
+precision:			0.2328042328042328
+recall:				0.08494208494208494
+f-score:			0.12446958981612447

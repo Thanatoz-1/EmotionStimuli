@@ -1,5 +1,5 @@
-from emotion.dataset.dataset import Dataset
-from ..utils import counter, logging
+__author__ = "Tushar Dhyani"
+from ..utils import Dataset, counter, logging
 
 logger = logging.getLogger(__name__)
 
@@ -10,6 +10,7 @@ class HMM:
         self.words_with_tags = list()
         self.word_given_tag_dict = dict()
         self.transitionMatrix = None
+        self.uniqueTags = []
 
     def prob_word_given_tag(self, word, tag):
         try:
@@ -82,7 +83,7 @@ class HMM:
                         )
                         tempTagState.append(tag_state_prob)
                     maxTag = self.uniqueTags[tempTagState.index(max(tempTagState))]
-                    #                 print(f"Line 23: MaxTag: {maxTag}, TagCurr: {tag_curr}")
+                    # print(f"Line 23: MaxTag: {maxTag}, TagCurr: {tag_curr}")
                     prob_transition = self.transitionMatrix[
                         self.uniqueTags.index(maxTag)
                     ][self.uniqueTags.index(tag_curr)]
@@ -176,8 +177,9 @@ class HMM:
         else:
             tokens = sentence"""
         for id in dataset.instances:
+            # print(id)
             gold = dataset.instances[id].gold[self.label]
-            to_pred = dataset.instances[id].pred[self.label]
-            prediction = self.viterbi(to_pred)
+            to_predict = [(tok.lower(), "") for tok in dataset.instances[id].tokens]
+            prediction = self.viterbi(to_predict)
             dataset.instances[id].pred[self.label] = prediction
         return None
