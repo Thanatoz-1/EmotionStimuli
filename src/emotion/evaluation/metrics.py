@@ -1,26 +1,38 @@
 __author__ = "Maximilian Wegge"
 
 
-def calc_jaccard_score(y_true: dict, y_pred: dict):
-    """Calculate the jaccard score of the provided sequence slice
-    Jaccard index = $\frac{Intersection of argument list}{Union of argument list}$
+def calc_jaccard_score(span_1: dict, span_2: dict) -> float:
+    """Calculate the jaccard score of the provided spans of tags.
+    Jaccard index = Intersection of argument list / Union of argument list
 
     Ref: https://en.wikipedia.org/wiki/Jaccard_index
+
     Args:
-        y_true (List[str, int]): Sequence slice gold labels
-        y_pred (List[str, int]): Sequence slice predicted labels
+        span_1 (dict): first span of tags. Format:
+        {IndexOfTokenInSentence:
+                "tag",
+        ...
+        }
+        span_2 (dict): second span of tags. Format:
+        {IndexOfTokenInSentence:
+                "tag",
+        ...
+        }
+    Returns:
+        float: jaccard score for the given spans.
     """
-    s1 = set(y_true)
-    s2 = set(y_pred)
+    s1 = set(span_1)
+    s2 = set(span_2)
     j_union = s1.union(s2)
     j_intersection = 0
-    for i in j_union:
-        if i in y_true and i in y_pred:
-            if y_true[i] in ["B", "I"] and y_pred[i] in ["B", "I"]:
-                # B and I count as intersection
+    for sent_index in j_union:
+        if sent_index in span_1 and sent_index in span_2:
+            if span_1[sent_index] == span_2[sent_index]:
+                # both spans have the same tag at the same position.
                 j_intersection += 1
-            elif y_true[i] == y_pred[i]:
-                # exact intersection
+            elif span_1[sent_index] in ["B", "I"] and span_2[sent_index] in ["B", "I"]:
+                # both spans have either a 'B' or an 'I' tag are the same position.
+                # Thus, both spans of 'BI' tags intersect at this position.
                 j_intersection += 1
         else:
             pass
@@ -28,44 +40,63 @@ def calc_jaccard_score(y_true: dict, y_pred: dict):
     return js
 
 
-def calc_precision(tp, fp):
-    """Python function for calculating precision
+def calc_precision(tp: int, fp: int) -> float:
+    """Calculate Precision.
 
     Args:
-        y_true (List[int]): List of int containing the gold labels
-        y_pred (List[int]): List of int containing predicted labels
+        tp (int): amount of TP.
+        fp (int): amount of FP.
+
+    Returns:
+        float: precision for the given amounts of TP and FP.
     """
+
     if tp + fp != 0:
-        precision = tp / (tp + fp)
+        precision = float(tp / (tp + fp))
+
     else:
+        # prevent zero division error.
         precision = 0
+
     return precision
 
 
-def calc_recall(tp, fn):
-    """Python function for calculating recall
+def calc_recall(tp: int, fn: int) -> float:
+    """Calculate recall.
 
     Args:
-        y_true (List[int]): List of int containing the gold labels
-        y_pred (List[int]): List of int containing predicted labels
+        tp (int): amount of TP.
+        fn (int): amount of FN.
+
+    Returns:
+        float: recall for the given amounts of TP and FN.
     """
     if tp + fn != 0:
-        recall = tp / (tp + fn)
+        recall = float(tp / (tp + fn))
     else:
+        # prevent zero division error.
         recall = 0
+
     return recall
 
 
-def calc_fscore(prec, rec, beta):
-    """Python function for calculating recall
-    Ref: https://en.wikipedia.org/wiki/F-score
+def calc_fscore(prec: float, rec: float, beta: int) -> float:
+    """Calculate f-score.
+
     Args:
-        y_true (List[int]): List of int containing the gold labels
-        y_pred (List[int]): List of int containing predicted labels
-        beta (int, optional): [description]. Defaults to 1.
+        prec (float): precision.
+        rec (float): recall.
+        beta (int): beta parameter.
+
+    Returns:
+        float: f-score for given precision and recall with given beta.
     """
     if ((beta * beta * prec) + rec) != 0:
-        fscore = ((1 + (beta * beta)) * prec * rec) / ((beta * beta * prec) + rec)
+        fscore = float(
+            ((1 + (beta * beta)) * prec * rec) / ((beta * beta * prec) + rec)
+        )
     else:
+        # prevent zero division error.
         fscore = 0
+
     return fscore

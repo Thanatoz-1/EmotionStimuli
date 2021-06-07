@@ -1,9 +1,0 @@
-size:				344
-evaluated label:	cue-other
-threshold:			0.8
-amount of tp:		0
-amount of fn:		85
-amount of fp:		15
-precision:			0.0
-recall:				0.0
-f-score:			0
