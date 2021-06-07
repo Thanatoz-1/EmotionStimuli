@@ -1,10 +1,12 @@
+from emotion.dataset.dataset import Dataset
 from ..utils import counter, logging
 
 logger = logging.getLogger(__name__)
 
 
 class HMM:
-    def __init__(self) -> None:
+    def __init__(self, label) -> None:
+        self.label = label
         self.words_with_tags = list()
         self.word_given_tag_dict = dict()
         self.transitionMatrix = None
@@ -117,7 +119,7 @@ class HMM:
         words = [word for word, tag in sentence]
         return list(zip(words, FinalTagSequence))
 
-    def train(self, dataset):
+    def train(self, dataset: Dataset):
         """
         Dataset should be in the following form:
         List[List[tuple(str, str)]]
@@ -127,21 +129,25 @@ class HMM:
                 (this, "O"),
                 ("is", "B"),
                 ("a", "O),
-                ("sentence", "O")
+                ("sentence", "O"),
+                ('.','.')
             ]
         ]
         """
-        for sent in dataset:
-            for tup in sent:
-                self.words_with_tags.append((tup[0].lower(), tup[1]))
-        self.tagCounter = counter(tag for word, tag in self.words_with_tags)
+        for id in dataset.instances:
+            if self.label in dataset.instances[id].labels:
+                for tup in dataset.instances[id].gold[self.label]:
+                    self.words_with_tags.append((tup[0].lower(), tup[1]))
+            self.tagCounter = counter(tag for word, tag in self.words_with_tags)
+
         # Create the word given tag dictionary
-        for sent in dataset:
-            for word, tag in sent:
-                try:
-                    self.word_given_tag_dict[(word.lower(), tag)] += 1
-                except:
-                    self.word_given_tag_dict[(word.lower(), tag)] = 1
+        for id in dataset.instances:
+            if self.label in dataset.instances[id].labels:
+                for word, tag in dataset.instances[id].gold[self.label]:
+                    try:
+                        self.word_given_tag_dict[(word.lower(), tag)] += 1
+                    except:
+                        self.word_given_tag_dict[(word.lower(), tag)] = 1
         # Find unique tags and crate transition matrix from the same.
         self.uniqueTags = list({tup[1] for tup in self.word_given_tag_dict})
         self.transitionMatrix = [[0] * len(self.uniqueTags) for _ in self.uniqueTags]
@@ -150,11 +156,12 @@ class HMM:
             for jdx, tagj in enumerate(self.uniqueTags):
                 self.transitionMatrix[idx][jdx] = self.prob_tag2_given_tag1(tagj, tagi)
 
-    def predict(self, sentence: list, verbose=False):
-        if type(sentence) == str:
+    def predictSentence(self, sentence: list, verbose=False):
+        """if type(sentence) == str:
             tokens = [(i.lower(), "O") for i in sentence.split()]
         else:
-            tokens = sentence
+            tokens = sentence"""
+        tokens = [(i.lower(), "O") for i in sentence]
         prediction = self.viterbi(tokens)
         if verbose:
             prediction = [
@@ -162,3 +169,15 @@ class HMM:
                 for i, j in zip(tokens, prediction)
             ]
         return prediction
+
+    def predictDataset(self, dataset: Dataset):
+        """if type(sentence) == str:
+            tokens = [(i.lower(), "O") for i in sentence.split()]
+        else:
+            tokens = sentence"""
+        for id in dataset.instances:
+            gold = dataset.instances[id].gold[self.label]
+            to_pred = dataset.instances[id].pred[self.label]
+            prediction = self.viterbi(to_pred)
+            dataset.instances[id].pred[self.label] = prediction
+        return None

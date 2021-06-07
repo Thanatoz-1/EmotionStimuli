@@ -1,4 +1,4 @@
-def jaccard_score(y_true, y_pred):
+def calc_jaccard_score(y_true: dict, y_pred: dict, ib):
     """Calculate the jaccard score of the provided sequence slice
     Jaccard index = $\frac{Intersection of argument list}{Union of argument list}$
 
@@ -9,93 +9,51 @@ def jaccard_score(y_true, y_pred):
     """
     s1 = set(y_true)
     s2 = set(y_pred)
-    ji = float(len(s1.intersection(s2)) / len(s1.union(s2)))
-    return ji
+    j_union = s1.union(s2)
+    j_intersection = 0
+    for i in j_union:
+        if i in y_true and i in y_pred:
+            if y_true[i] in ["B", "I"] and y_pred[i] in ["B", "I"] and ib:
+                # B and I count as intersection
+                j_intersection += 1
+            elif y_true[i] == y_pred[i]:
+                # exact intersection
+                j_intersection += 1
+        else:
+            pass
+    js = float(j_intersection / len(j_union))
+    return js
 
 
-def tp(y_true, y_pred):
-    """Python function to calculate values of True Positives
-
-    Args:
-        y_true (List[int]): List of int containing the gold labels
-        y_pred (List[int]): List of int containing the predicted labels
-    """
-    tpv = 0
-    for gld, prd in zip(y_true, y_pred):
-        if gld == 1 and prd == 1:
-            tpv += 1
-    return tpv
-
-
-def fp(y_true, y_pred):
-    """Python function for calculating False positives
-
-    Args:
-        y_true (List[int]): List of int containing the gold labels
-        y_pred (List[int]): List of int containing predicted labels
-    """
-    fpv = 0
-    for gld, prd in zip(y_true, y_pred):
-        if gld == 0 and prd == 1:
-            fpv += 1
-    return fpv
-
-
-def tn(y_true, y_pred):
-    """Python function for calculating True negatives
-
-    Args:
-        y_true (List[int]): List of int containing the gold labels
-        y_pred (List[int]): List of int containing predicted labels
-    """
-    tnv = 0
-    for gld, prd in zip(y_true, y_pred):
-        if gld == 0 and prd == 0:
-            tnv += 1
-    return tnv
-
-
-def fn(y_true, y_pred):
-    """Python function for calculating False negatives
-
-    Args:
-        y_true (List[int]): List of int containing the gold labels
-        y_pred (List[int]): List of int containing predicted labels
-    """
-    fnv = 0
-    for gld, prd in zip(y_true, y_pred):
-        if gld == 1 and prd == 0:
-            fnv += 1
-    return fnv
-
-
-def precision(y_true, y_pred):
+def calc_precision(tp, fp):
     """Python function for calculating precision
 
     Args:
         y_true (List[int]): List of int containing the gold labels
         y_pred (List[int]): List of int containing predicted labels
     """
-    tpv = tp(y_true, y_pred)
-    fpv = fp(y_true, y_pred)
-    prec = tpv / (tpv + fpv)
-    return prec
+    if tp + fp != 0:
+        precision = tp / (tp + fp)
+    else:
+        precision = 0
+    return precision
 
 
-def recall(y_true, y_pred):
+def calc_recall(tp, fn):
     """Python function for calculating recall
 
     Args:
         y_true (List[int]): List of int containing the gold labels
         y_pred (List[int]): List of int containing predicted labels
     """
-    tpv = tp(y_true, y_pred)
-    fnv = fn(y_true, y_pred)
-    recll = tpv / (tpv + fnv)
-    return recll
+    if tp + fn != 0:
+        recall = tp / (tp + fn)
+    else:
+        recall = 0
+    return recall
 
 
-def fscore(y_true, y_pred, beta: int = 1):
+def calc_fscore(prec, rec, beta):
     """Python function for calculating recall
     Ref: https://en.wikipedia.org/wiki/F-score
     Args:
@@ -103,7 +61,8 @@ def fscore(y_true, y_pred, beta: int = 1):
         y_pred (List[int]): List of int containing predicted labels
         beta (int, optional): [description]. Defaults to 1.
     """
-    pv = precision(y_true, y_pred)
-    rv = recall(y_true, y_pred)
-    f = (1 + (beta * beta)) * ((pv * rv) / ((beta * beta * pv) + recall))
-    return f
+    if ((beta * beta * prec) + rec) != 0:
+        fscore = ((1 + (beta * beta)) * prec * rec) / ((beta * beta * prec) + rec)
+    else:
+        fscore = 0
+    return fscore
