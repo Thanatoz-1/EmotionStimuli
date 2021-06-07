@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="emotion",  # thanatoz-1, max-milian
     version="0.0.1",
-    author="Tushar D, Maximillian W.",
+    author="Tushar D, Maximilian W.",
     author_email="st176870@stud.uni-stuttgart.de, @stud.uni-stuttgart.de",
     description="Emotion role labelling project",
     long_description=long_description,

@@ -7,18 +7,24 @@ __pycache__/
 # C extensions
 *.so
 
+
+# Data 
+=======
+data/
+
 # MacOS system files
 .DS_Store
-
-# Data Files
-data/
 
 # Testfiles
 evaluation.py
 datasettest.py
 
-# Notebook folder
+#Notebooks
 nbs/
+
+# # Temporarily docs
+# docs/
+
 
 # Distribution / packaging
 .Python

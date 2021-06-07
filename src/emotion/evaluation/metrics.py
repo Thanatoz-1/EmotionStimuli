@@ -1,4 +1,4 @@
-__author__ = "Maximilian Wegge"
+__author__ = "Tushar Dhyani, Maximilian Wegge"
 
 
 def calc_jaccard_score(span_1: dict, span_2: dict) -> float:

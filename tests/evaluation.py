@@ -84,7 +84,7 @@ for i in data:
         except:
             continue
 # Train
-hmm = HMM()
+hmm = HMM(targetted_label)
 hmm.train(dataset)
 pred1 = hmm.predict(
     "the couple landed the helicopter in the middle of the forest and infuriated the authority",
