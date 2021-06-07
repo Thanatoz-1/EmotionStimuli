@@ -1,2 +1,3 @@
 from .baseline import HMM
-from .evaluation import jaccard_score
+from .evaluation import Evaluation
+from .dataset import Dataset

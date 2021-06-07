@@ -1,10 +1,1 @@
-from .metrics import (
-    jaccard_score,
-    tp,
-    fp,
-    tn,
-    fn,
-    precision,
-    recall,
-    fscore,
-)
+from .eval_class import Evaluation
