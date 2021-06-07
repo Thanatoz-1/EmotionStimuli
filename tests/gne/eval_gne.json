@@ -1,0 +1,50 @@
+{
+    "experiencer": {
+        "size": 1000,
+        "evaluated role": "experiencer",
+        "jaccard-threshold": 0.8,
+        "amount TP": 220,
+        "amount FN": 482,
+        "amount FP": 266,
+        "precision": 0.45267489711934156,
+        "recall": 0.31339031339031337,
+        "f-score": 0.37037037037037035,
+        "beta for f-score": 1.0
+    },
+    "target": {
+        "size": 1000,
+        "evaluated role": "target",
+        "jaccard-threshold": 0.8,
+        "amount TP": 35,
+        "amount FN": 886,
+        "amount FP": 178,
+        "precision": 0.1643192488262911,
+        "recall": 0.038002171552660155,
+        "f-score": 0.0617283950617284,
+        "beta for f-score": 1.0
+    },
+    "cue": {
+        "size": 1000,
+        "evaluated role": "cue",
+        "jaccard-threshold": 0.8,
+        "amount TP": 214,
+        "amount FN": 767,
+        "amount FP": 264,
+        "precision": 0.4476987447698745,
+        "recall": 0.218144750254842,
+        "f-score": 0.29335161069225496,
+        "beta for f-score": 1.0
+    },
+    "cause": {
+        "size": 1000,
+        "evaluated role": "cause",
+        "jaccard-threshold": 0.8,
+        "amount TP": 216,
+        "amount FN": 757,
+        "amount FP": 156,
+        "precision": 0.5806451612903226,
+        "recall": 0.22199383350462487,
+        "f-score": 0.3211895910780669,
+        "beta for f-score": 1.0
+    }
+}

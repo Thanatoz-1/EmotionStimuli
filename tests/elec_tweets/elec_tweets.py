@@ -1,5 +1,4 @@
-from emotion.utils import Data
-from emotion.dataset import Dataset, Instance
+from emotion.utils import Data, Dataset
 from emotion import HMM
 from emotion.evaluation import Evaluation
 
@@ -7,7 +6,7 @@ from emotion.evaluation import Evaluation
 # read Data from file, only gne, all labels
 elec_all = Data(
     filename="data/rectified-unified-with-offsets.json",
-    labelset=["experiencer", "target", "cue", "cause"],
+    roles=["experiencer", "target", "cue", "cause"],
     corpora=["electoral_tweets"],
     splits=[0.8, 0.2],
 )
@@ -37,17 +36,17 @@ hmm_elec_cue.predictDataset(dataset=test)
 hmm_elec_cse.predictDataset(dataset=test)
 
 # evaluate the predictions and return precicion, recall and f-score
-eval_elec_exp = Evaluation(dataset=test, label="experiencer", threshold=0.8)
-eval_elec_tar = Evaluation(dataset=test, label="target", threshold=0.8)
-eval_elec_cue = Evaluation(dataset=test, label="cue", threshold=0.8)
-eval_elec_cse = Evaluation(dataset=test, label="cause", threshold=0.8)
+eval_elec_exp = Evaluation(dataset=test, role="experiencer", threshold=0.8)
+eval_elec_tar = Evaluation(dataset=test, role="target", threshold=0.8)
+eval_elec_cue = Evaluation(dataset=test, role="cue", threshold=0.8)
+eval_elec_cse = Evaluation(dataset=test, role="cause", threshold=0.8)
 
-eval_elec_exp.SaveDoc("tests/elec_tweets/doc_elec_exp.json")
-# eval_elec_tar.SaveDoc("tests/elec_tweets/doc_elec_tar.json")
-# eval_elec_cue.SaveDoc("tests/elec_tweets/doc_elec_cue.json")
-# eval_elec_cse.SaveDoc("tests/elec_tweets/doc_elec_cse.json")
+# eval_elec_exp.save_doc("tests/elec_tweets/doc_elec_exp.json")
+# eval_elec_tar.save_doc("tests/elec_tweets/doc_elec_tar.json")
+# eval_elec_cue.save_doc("tests/elec_tweets/doc_elec_cue.json")
+# eval_elec_cse.save_doc("tests/elec_tweets/doc_elec_cse.json")
 
-eval_elec_exp.SaveEval("tests/elec_tweets/eval_elec_exp.txt")
-eval_elec_tar.SaveEval("tests/elec_tweets/eval_elec_tar.txt")
-eval_elec_cue.SaveEval("tests/elec_tweets/eval_elec_cue.txt")
-eval_elec_cse.SaveEval("tests/elec_tweets/eval_elec_cse.txt")
+eval_elec_exp.save_eval(eval_name="exp", filename="tests/elec_tweets/eval_elec.json")
+eval_elec_tar.save_eval(eval_name="target", filename="tests/elec_tweets/eval_elec.json")
+eval_elec_cue.save_eval(eval_name="cue", filename="tests/elec_tweets/eval_elec.json")
+eval_elec_cse.save_eval(eval_name="cause", filename="tests/elec_tweets/eval_elec.json")

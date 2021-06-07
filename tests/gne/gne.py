@@ -1,5 +1,4 @@
-from emotion.utils import Data
-from emotion.dataset import Dataset, Instance
+from emotion.utils import Data, Dataset
 from emotion import HMM
 from emotion.evaluation import Evaluation
 
@@ -7,7 +6,7 @@ from emotion.evaluation import Evaluation
 # read Data from file, only gne, all labels
 gne_all = Data(
     filename="data/rectified-unified-with-offsets.json",
-    labelset=["experiencer", "target", "cue", "cause"],
+    roles=["experiencer", "target", "cue", "cause"],
     corpora=["gne"],
     splits=[0.8, 0.2],
 )
@@ -37,17 +36,17 @@ hmm_gne_cue.predictDataset(dataset=test)
 hmm_gne_cse.predictDataset(dataset=test)
 
 # evaluate the predictions and return precicion, recall and f-score
-eval_gne_exp = Evaluation(dataset=test, label="experiencer", threshold=0.8)
-eval_gne_tar = Evaluation(dataset=test, label="target", threshold=0.8)
-eval_gne_cue = Evaluation(dataset=test, label="cue", threshold=0.8)
-eval_gne_cse = Evaluation(dataset=test, label="cause", threshold=0.8)
+eval_gne_exp = Evaluation(dataset=test, role="experiencer", threshold=0.8)
+eval_gne_tar = Evaluation(dataset=test, role="target", threshold=0.8)
+eval_gne_cue = Evaluation(dataset=test, role="cue", threshold=0.8)
+eval_gne_cse = Evaluation(dataset=test, role="cause", threshold=0.8)
 
-# eval_gne_exp.SaveDoc("tests/gne/doc_gne_exp.json")
-# eval_gne_tar.SaveDoc("tests/gne/doc_gne_tar.json")
-# eval_gne_cue.SaveDoc("tests/gne/doc_gne_cue.json")
-eval_gne_cse.SaveDoc("tests/gne/doc_gne_cse.json")
+# eval_gne_exp.save_doc("tests/gne/doc_gne_exp.json")
+# eval_gne_tar.save_doc("tests/gne/doc_gne_tar.json")
+# eval_gne_cue.save_doc("tests/gne/doc_gne_cue.json")
+# eval_gne_cse.save_doc("tests/gne/doc_gne_cse.json")
 
-eval_gne_exp.SaveEval("tests/gne/eval_gne_exp.txt")
-eval_gne_tar.SaveEval("tests/gne/eval_gne_tar.txt")
-eval_gne_cue.SaveEval("tests/gne/eval_gne_cue.txt")
-eval_gne_cse.SaveEval("tests/gne/eval_gne_cse.txt")
+eval_gne_exp.save_eval(eval_name="experiencer", filename="tests/gne/eval_gne.json")
+eval_gne_tar.save_eval(eval_name="target", filename="tests/gne/eval_gne.json")
+eval_gne_cue.save_eval(eval_name="cue", filename="tests/gne/eval_gne.json")
+eval_gne_cse.save_eval(eval_name="cause", filename="tests/gne/eval_gne.json")

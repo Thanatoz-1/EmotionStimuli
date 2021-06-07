@@ -1,12 +1,9 @@
-from emotion.preprocessing import Data
-from emotion.dataset import Dataset, Instance
-from emotion import HMM
-from emotion.evaluation import Evaluation
+from emotion import Data, Dataset, Instance, HMM, Evaluation
 
 gne_exp = Data(
     filename="data/rectified-unified-with-offsets.json",
-    labelset=["experiencer"],
-    corpora=["gne"],
+    allow_roles=["experiencer"],
+    allow_corpora=["reman"],
     splits=[0],
 )
 
@@ -22,8 +19,8 @@ test.instances["testid"] = Instance(
     tokens=testtokens,
     corpus="testcorpus",
 )
-test.instances["testid"].SetGold(
-    label="experiencer",
+test.instances["testid"].set_gld(
+    role="experiencer",
     annotation=[tup for tup in zip(testtokens, testannot)],
 )
 # test.instances["testid"].InitPred(label="experiencer")
@@ -32,10 +29,11 @@ test.instances["testid"].pred["experiencer"] = [
     tup for tup in zip(testtokens, testpredict)
 ]
 
-eval_gne2gne_exp = Evaluation(dataset=test, label="experiencer", threshold=0.8)
+eval_gne2gne_exp = Evaluation(dataset=test, role="experiencer", threshold=0.8)
 
 print(eval_gne2gne_exp.precision)
 print(eval_gne2gne_exp.recall)
 print(eval_gne2gne_exp.fscore)
 
-eval_gne2gne_exp.SaveDoc("tests/test.json")
+eval_gne2gne_exp.save_doc(filename="tests/test_doc.json")
+eval_gne2gne_exp.save_eval(eval_name="gne2gne_exp", filename="tests/test_eval.json")
