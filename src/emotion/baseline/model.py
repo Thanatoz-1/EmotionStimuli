@@ -152,6 +152,9 @@ class HMM:
                 ('.','.')
             ]
         ]
+
+        Args:
+            dataset: Dataset = The list of data in the format mentioned above.
         """
         for id in dataset.instances:
             if self.label in dataset.instances[id].roles:
