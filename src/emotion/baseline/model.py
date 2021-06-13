@@ -157,14 +157,14 @@ class HMM:
             dataset: Dataset = The list of data in the format mentioned above.
         """
         for id in dataset.instances:
-            if self.label in dataset.instances[id].labels:
+            if self.label in dataset.instances[id].roles:
                 for tup in dataset.instances[id].gold[self.label]:
                     self.words_with_tags.append((tup[0].lower(), tup[1]))
             self.tagCounter = counter(tag for word, tag in self.words_with_tags)
 
         # Create the word given tag dictionary
         for id in dataset.instances:
-            if self.label in dataset.instances[id].labels:
+            if self.label in dataset.instances[id].roles:
                 for word, tag in dataset.instances[id].gold[self.label]:
                     try:
                         self.word_given_tag_dict[(word.lower(), tag)] += 1
@@ -179,10 +179,6 @@ class HMM:
                 self.transitionMatrix[idx][jdx] = self.prob_tag2_given_tag1(tagj, tagi)
 
     def predictSentence(self, sentence: list, verbose=False):
-        """if type(sentence) == str:
-            tokens = [(i.lower(), "O") for i in sentence.split()]
-        else:
-            tokens = sentence"""
         tokens = [(i.lower(), "O") for i in sentence]
         prediction = self.viterbi(tokens)
         if verbose:
@@ -193,14 +189,11 @@ class HMM:
         return prediction
 
     def predictDataset(self, dataset: Dataset):
-        """if type(sentence) == str:
-            tokens = [(i.lower(), "O") for i in sentence.split()]
-        else:
-            tokens = sentence"""
         for id in dataset.instances:
             # print(id)
-            gold = dataset.instances[id].gold[self.label]
-            to_predict = [(tok.lower(), "") for tok in dataset.instances[id].tokens]
-            prediction = self.viterbi(to_predict)
-            dataset.instances[id].pred[self.label] = prediction
+            # gold = dataset.instances[id].gold[self.label]
+            if self.label in dataset.instances[id].gold:
+                to_predict = [(tok.lower(), "") for tok in dataset.instances[id].tokens]
+                prediction = self.viterbi(to_predict)
+                dataset.instances[id].pred[self.label] = prediction
         return None

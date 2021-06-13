@@ -16,13 +16,14 @@ for instance in reman:
 annots = {}
 labels = set()
 counter = {}
-l = 0
-c = 0
+
+c = set()
 for instance in data:
     if instance["dataset"] == "reman":
-        c += 1
-        l += len(instance["tokens"])
-print(l / c)
+        for label in instance["annotations"]:
+            c.add(label)
+        # l += len(instance["tokens"])
+print("#####################", c)
 
 for instance in data:
     # if instance["dataset"] == "reman":

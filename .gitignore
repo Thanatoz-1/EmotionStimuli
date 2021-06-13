@@ -3,22 +3,28 @@ __pycache__/
 *.py[cod]
 *$py.class
 .vscode/
+
 # C extensions
 *.so
-<<<<<<< HEAD
+
 
 # Data 
 =======
+data/
+
 # MacOS system files
 .DS_Store
 
-data/
+# Testfiles
+evaluation.py
+datasettest.py
 
 #Notebooks
 nbs/
 
 # # Temporarily docs
 # docs/
+
 
 # Distribution / packaging
 .Python

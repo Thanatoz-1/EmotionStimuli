@@ -1,0 +1,1 @@
+{"stimulus": {"size": 482, "evaluated role": "cause", "jaccard-threshold": 0.8, "amount TP": 33, "amount FN": 142, "amount FP": 99, "precision": 0.25, "recall": 0.18857142857142858, "f-score": 0.21498371335504884, "beta for f-score": 1.0}}
