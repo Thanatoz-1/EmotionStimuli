@@ -6,18 +6,17 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Thanatoz-1/EmotionStimuli?style=for-the-badge)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Thanatoz-1/EmotionStimuli?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/Thanatoz-1/EmotionStimuli?style=for-the-badge)
+[![Documentation Status](https://readthedocs.org/projects/emotionstimuli/badge/?version=latest&style=for-the-badge)](https://emotionstimuli.readthedocs.io/en/latest/?badge=latest)
+
 </div>
 
 Emotion classification in text has wide array of applications which include sentiment tracking targetted towards politicians, movies, products, companies, identifying the emotion behind a newspaper headline etc. With the rapid proliferation of text based information processing and a number of social-media websites, there has been a increasing amount of emotion analysis and information mining for researched on newly available datasets. However, historical works has only been focusing solely on detecting certain emotion  ignoring questions such as ‘who feels the emotion? (Experiencer)’, 'towards whom the emotion is directed (Stimulus)?’, 'what provokes the emotion? (Cue)' and 'what is the cause of emotion? (Cause)'. This project has been targeted around the same task using a number of cues for identification of the stated spans. Have a look at the stated sentence below:
 
 <br/>
 
-![Project_Banner](docs/image/sentence_exmaple.jpg)
-Project from scratch on Emotion role labelling
+![explaination](docs/image/sentence_exmaple.jpg)
 
-Welcome to the project. Please continue your work.
-
-## Installing the package 
+## Installing the package
 If you are running a linux machine with pip installed, then you can install the EmotionStimuli package using pip.
 ```bash
 pip install .
@@ -102,6 +101,8 @@ results.save_doc(filename="documentation.json")
 
 ![Project_Results](docs/image/results.jpg)
 
+## Detailed documentations
+You can find the detailed documentations [here](https://emotionstimuli.readthedocs.io/en/latest/).
 
 ## References
 1. Oberl&#228;nder, Laura Ana Maria  and Klinger, Roman; [Token Sequence Labeling vs. Clause Classification for {E}nglish Emotion Stimulus Detection](https://www.aclweb.org/anthology/2020.starsem-1.7); Proceedings of the Ninth Joint Conference on Lexical and Computational Semantics, Dec 2020; Association for Computational Linguistics
