@@ -104,6 +104,9 @@ results.save_doc(filename="documentation.json")
 ## Detailed documentations
 You can find the detailed documentations [here](https://emotionstimuli.readthedocs.io/en/latest/).
 
+## How to contribute
+Please adhere to the following steps in order to contribute to the project. The project uses [pep8](https://pep8.org/) styling guidelines for the entire codebase. Apart from that, the code is strictly formatted with [black](https://black.readthedocs.io/en/stable/) version `21.5b1`, please make sure to use the same formatter with your code to get your code accepted. 
+
 ## References
-1. Oberl&#228;nder, Laura Ana Maria  and Klinger, Roman; [Token Sequence Labeling vs. Clause Classification for {E}nglish Emotion Stimulus Detection](https://www.aclweb.org/anthology/2020.starsem-1.7); Proceedings of the Ninth Joint Conference on Lexical and Computational Semantics, Dec 2020; Association for Computational Linguistics
+1. Oberl&#228;nder, Laura Ana Maria  and Klinger, Roman; [Token Sequence Labeling vs. latest Classification for {E}nglish Emotion Stimulus Detection](https://www.aclweb.org/anthology/2020.starsem-1.7); Proceedings of the Ninth Joint Conference on Lexical and Computational Semantics, Dec 2020; Association for Computational Linguistics
 2. Mohammad, Saif  and Zhu, Xiaodan  and Martin, Joel; [Semantic Role Labeling of Emotions in Tweets](https://www.aclweb.org/anthology/W14-2607); Proceedings of the 5th Workshop on Computational Approaches to Subjectivity, Sentiment and Social Media Analysis; Jun 2014; Association for Computational Linguistics.
