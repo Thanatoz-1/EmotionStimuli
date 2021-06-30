@@ -1,4 +1,6 @@
 __author__ = "Tushar Dhyani"
+import os
+import pickle
 from ..utils import Dataset, counter, logging
 
 logger = logging.getLogger(__name__)
@@ -177,6 +179,24 @@ class HMM:
         for idx, tagi in enumerate(self.uniqueTags):
             for jdx, tagj in enumerate(self.uniqueTags):
                 self.transitionMatrix[idx][jdx] = self.prob_tag2_given_tag1(tagj, tagi)
+
+    def save(self, save_path: str = "~/.hmm"):
+        """Function for saving the HMM model weights.
+
+        Args:
+            save_path (str): the path to the pkl file. Defaults to "~/.hmm".
+        """
+        with open(os.path.join(save_path, "tm.pkl"), "wb") as f:
+            pickle.dump(self.transitionMatrix, f)
+
+    def load(self, load_path: str = "~/.hmm"):
+        """Function to load the pickle file from the path.
+
+        Args:
+            load_path (str): The path for the model weights (pkl file). Defaults to "~/.hmm".
+        """
+        with open(os.path.join(load_path, "tm.pkl"), "rb") as f:
+            self.transitionMatrix = pickle.load(f)
 
     def predictSentence(self, sentence: list, verbose=False):
         tokens = [(i.lower(), "O") for i in sentence]
