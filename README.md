@@ -14,7 +14,7 @@ Emotion classification in text has wide array of applications which include sent
 
 <br/>
 
-![explaination](docs/image/sentence_exmaple.jpg)
+![explaination](docs/_static/image/sentence_exmaple.jpg)
 
 ## Installing the package
 If you are running a linux machine with pip installed, then you can install the EmotionStimuli package using pip.
@@ -99,7 +99,7 @@ results.save_doc(filename="documentation.json")
 ## Results
 <br/>
 
-![Project_Results](docs/image/results.jpg)
+![Project_Results](docs/_static/image/results.jpg)
 
 ## Detailed documentations
 You can find the detailed documentations [here](https://emotionstimuli.readthedocs.io/en/latest/).
