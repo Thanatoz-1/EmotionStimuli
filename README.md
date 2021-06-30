@@ -98,7 +98,7 @@ results.save_eval(eval_name="gne_exp", filename="output.json")
 results.save_doc(filename="documentation.json")
 ```
 ## Overview of our Baseline Framework
-![Project_Overview](docs/image/baseline_overview.jpeg)
+![Project_Overview](docs/_static/image/baseline_overview.jpeg)
 
 ## Results
 <br/>
