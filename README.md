@@ -102,7 +102,7 @@ results.save_doc(filename="documentation.json")
 ![Project_Results](docs/image/results.jpg)
 
 ### Advanced Approach
-![Project_Results_Adv](docs/image/results_advanced.png))
+![Project_Results](docs/image/results_advanced.png))
 
 ## References
 1. Oberl&#228;nder, Laura Ana Maria  and Klinger, Roman; [Token Sequence Labeling vs. Clause Classification for {E}nglish Emotion Stimulus Detection](https://www.aclweb.org/anthology/2020.starsem-1.7); Proceedings of the Ninth Joint Conference on Lexical and Computational Semantics, Dec 2020; Association for Computational Linguistics
