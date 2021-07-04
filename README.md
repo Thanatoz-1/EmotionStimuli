@@ -99,9 +99,11 @@ results.save_doc(filename="documentation.json")
 ## Results
 <br/>
 ### Baseline Approach
+<br/>
 ![Project_Results](docs/image/results.jpg)
 
 ### Advanced Approach
+<br/>
 ![Project_Results](docs/image/results_advanced.png))
 
 ## References
