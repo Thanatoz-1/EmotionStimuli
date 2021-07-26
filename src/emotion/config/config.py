@@ -10,8 +10,18 @@ class Config:
     """
 
     BERT_TYPE = "bert-base-uncased"
-    BERT_CLASSIFICATION_PATH = "/media/thanoz/Extention/UniversityProjects/EmotionStimuli/data/emotion_classification"
+    BERT_CLASSIFICATION_PATH = "/home/thanoz/emotion_weights/emotion_classification"
     BERT_MAX_LEN = 65
     CLASSIFCATION_MAP = torch.load(
         os.path.join(BERT_CLASSIFICATION_PATH, "class_mapping.pt")
     )
+    PATH_TO_WORDID = "/home/thanoz/emotion_weights/word2id.pt"
+    WORD2ID = torch.load(PATH_TO_WORDID)["word2id"]
+    ID2WORD = torch.load(PATH_TO_WORDID)["id2word"]
+    BILSTM_MAXLEN = 65
+    EMBEDDING_WEIGHTS = "/home/thanoz/emotion_weights/embedding_backbone_weights.h5"
+    CAUSE_MODEL_PATH = "/home/thanoz/emotion_weights/entire_dataset_cause_len65.h5"
+    TARGET_MODEL_PATH = "/home/thanoz/emotion_weights/entire_dataset_target_len65.h5"
+    CUE_MODEL_PATH = "/home/thanoz/emotion_weights/entire_dataset_cue_len65.h5"
+    EXP_MODEL_PATH = "/home/thanoz/emotion_weights/entire_dataset_experiencer_len65.h5"
+    BILSTM_CLASSES = {"O": 0, "B": 1, "I": 2, "PAD": 3}

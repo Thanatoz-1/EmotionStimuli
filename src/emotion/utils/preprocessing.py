@@ -2,6 +2,10 @@ __author__ = "Maximilian Wegge, Tushar Dhyani"
 
 from .file_reading import Data
 from .tokenizer import bert_tokenizer
+from ..config import Config
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
 
 
 class Dataset:
@@ -117,3 +121,11 @@ def bert_preprocessing(text: str) -> dict:
         truncation=True,
     )
     return txt
+
+
+def bilstm_preprocessing(text: str):
+    tokens = [Config.WORD2ID.get(i.text, Config.WORD2ID.get("unk")) for i in nlp(text)][
+        : Config.BILSTM_MAXLEN
+    ]
+    tokens += [0] * (Config.BERT_MAX_LEN - len(tokens[: Config.BILSTM_MAXLEN]))
+    return tokens
