@@ -201,8 +201,11 @@ class Evaluation:
         return None
 
 
-def metric_for_bilstm(tx_emb, ty, model):
-    tx, emb = tx_emb[0], tx_emb[1]
+def metric_for_bilstm(tx_emb, ty, model, contains_srl=False):
+    if contains_srl:
+        tx, emb, srl = tx_emb[0], tx_emb[1], tx_emb[2]
+    else:
+        tx, emb = tx_emb[0], tx_emb[1]
     threshold = 0.8
     id2lab = {Config.BILSTM_CLASSES[i]: i for i in Config.BILSTM_CLASSES}
 
@@ -210,7 +213,10 @@ def metric_for_bilstm(tx_emb, ty, model):
     fp = 0
     fn = 0
 
-    predictions = model.predict(emb)
+    if contains_srl:
+        predictions = model.predict([emb, srl])
+    else:
+        predictions = model.predict(emb)
     for idx, i in tqdm(enumerate(range(len(tx))), total=len(tx), leave=False):
         try:
             toks = [

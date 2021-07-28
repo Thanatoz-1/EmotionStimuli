@@ -21,7 +21,7 @@ class Config:
         data = pickle.load(handle)
     WORD2ID = data["word2id"]
     ID2WORD = data["id2word"]
-    BILSTM_MAXLEN = 65
+    BILSTM_MAXLEN = 100
     SEED = 2010
     EMBEDDING_WEIGHTS = "/home/thanoz/emotion_weights/embedding_backbone_weights.h5"
     CAUSE_MODEL_PATH = "/home/thanoz/emotion_weights/entire_dataset_cause_len65.h5"
