@@ -1,9 +1,14 @@
 __author__ = "Maximilian Wegge"
 
-from emotion import evaluation
 from .metrics import calc_precision, calc_recall, calc_fscore
 from .align_spans import gen_poss_align, align_spans
-from .convert_to_span import conv2span
+from .convert_to_span import conv2span, conv2brown, get_counts
+from .align_spans import gen_poss_align, align_spans, perform_align_op
+from .metrics import calc_precision, calc_recall, calc_fscore, calc_jaccard_score
+from emotion.config import Config
+import random
+from tqdm import tqdm
+import copy
 from ..utils import Dataset
 import json
 
@@ -194,3 +199,48 @@ class Evaluation:
             json.dump(eval_output, eval_file)
 
         return None
+
+
+def metric_for_bilstm(tx_emb, ty, model):
+    tx, emb = tx_emb[0], tx_emb[1]
+    threshold = 0.8
+    id2lab = {Config.BILSTM_CLASSES[i]: i for i in Config.BILSTM_CLASSES}
+
+    tp = 0
+    fp = 0
+    fn = 0
+
+    predictions = model.predict(emb)
+    for idx, i in tqdm(enumerate(range(len(tx))), total=len(tx), leave=False):
+        try:
+            toks = [
+                Config.ID2WORD[iod] for iod in tx[i] if Config.ID2WORD[iod] != "pad"
+            ]
+            gold = [id2lab[id] for id in ty[i] if id2lab[id] != "PAD"]
+            preds = [
+                id2lab[iod]
+                for iod in predictions[idx].argmax(-1)
+                if id2lab[iod] != "PAD"
+            ]
+            gold_brown = conv2brown(toks, gold)
+            pred_brown = conv2brown(toks, preds)
+            counts, indices = get_counts(
+                gold_brown, pred_brown, threshold, return_indices=True
+            )
+
+            tmp_tp = tp
+
+            tp += counts[0]
+            fp += counts[1]
+            fn += counts[2]
+
+            if tp - tmp_tp >= 1:
+                pass
+        except Exception as e:
+            print(tx[i], e)
+
+    prec = calc_precision(tp, fp)
+    rec = calc_recall(tp, fn)
+    f1 = calc_fscore(prec, rec)
+
+    return prec, rec, f1

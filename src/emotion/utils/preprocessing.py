@@ -1,6 +1,7 @@
 __author__ = "Maximilian Wegge, Tushar Dhyani"
 
 from .file_reading import Data
+
 from .tokenizer import bert_tokenizer
 from ..config import Config
 import spacy

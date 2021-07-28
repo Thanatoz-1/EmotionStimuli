@@ -1,10 +1,13 @@
 __author__ = "Tushar Dhyani"
 
-import token
+import transformers
+
+transformers.logging.set_verbosity_info()
 from emotion import Classification
 from emotion.baseline import model_experiencer, model_target, model_cue, model_cause
 from emotion.baseline import get_embedding_model
 from emotion.utils import bilstm_preprocessing, extract_offsets
+from emotion.config import Config
 import numpy as np
 
 # Create 3 important usecases for the repo.
@@ -26,7 +29,7 @@ class EmotionRoleLabeller:
         self.embedding_model = get_embedding_model()
 
     def analyse(self, text):
-        tokens = bilstm_preprocessing(text)
+        tokens = bilstm_preprocessing(text.lower())
         embeddings = self.embedding_model(np.expand_dims(np.array(tokens), axis=0))
 
         cue = self.cue(embeddings)
@@ -34,29 +37,30 @@ class EmotionRoleLabeller:
         cause = self.cause(embeddings)
         exp = self.exp(embeddings)
 
-        print(cue.shape, cause.shape, exp.shape, target.shape)
+        words = [Config.ID2WORD[i] for i in tokens]
         cause = extract_offsets(np.argmax(cause, axis=-1)[0])
         if cause == 0:
-            cause = None
+            cause = 0
         else:
-            tokens[cause[0] : cause[1]]
+            cause = words[cause[0] : cause[1] + 1]
 
         cue = extract_offsets(np.argmax(cue, axis=-1)[0])
         if cue == 0:
             cue = 0
         else:
-            tokens[cue[0] : cue[1]]
+            cue = words[cue[0] : cue[1] + 1]
+
         target = extract_offsets(np.argmax(target, axis=-1)[0])
         if target == 0:
             target = 0
         else:
-            tokens[target[0] : target[1]]
+            target = words[target[0] : target[1] + 1]
 
         exp = extract_offsets(np.argmax(exp, axis=-1)[0])
         if exp == 0:
             exp = 0
         else:
-            tokens[exp[0] : exp[1]]
+            exp = words[exp[0] : exp[1] + 1]
 
         output = {
             "text": text,

@@ -2,8 +2,10 @@ import tensorflow as tf
 from tensorflow import keras
 from ..config import Config
 
+tf.random.set_seed(Config.SEED)
 
-def get_model(entity, maxlen: int = Config.BILSTM_MAXLEN, feat_len: int = 100):
+
+def get_model(entity=None, maxlen: int = Config.BILSTM_MAXLEN, feat_len: int = 100):
     inp_sent = tf.keras.Input((maxlen, feat_len), name="input_embedding")
     x = tf.keras.layers.Conv1D(300, 3, activation="relu", name="CNN1", padding="same")(
         inp_sent
@@ -21,7 +23,9 @@ def get_model(entity, maxlen: int = Config.BILSTM_MAXLEN, feat_len: int = 100):
     )
 
     model = tf.keras.models.Model(inp_sent, x)
-    model.load_weights(entity)
+    if entity != None:
+        print(f"Model weights loaded from {entity}")
+        model.load_weights(entity)
     # print(model.summary())
     return model
 
