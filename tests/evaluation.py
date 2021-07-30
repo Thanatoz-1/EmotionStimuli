@@ -1,3 +1,5 @@
+__author__ = "Maximilian Wegge"
+
 import json
 from emotion import HMM
 
