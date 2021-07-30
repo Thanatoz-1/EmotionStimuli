@@ -125,8 +125,16 @@ def bert_preprocessing(text: str) -> dict:
 
 
 def bilstm_preprocessing(text: str):
+    """Preprocessing for BiLSTM model.
+
+    Args:
+        text (str): Text string for inferencing.
+
+    Returns:
+        List: Contains the tokens for embedding model.
+    """
     tokens = [Config.WORD2ID.get(i.text, Config.WORD2ID.get("unk")) for i in nlp(text)][
         : Config.BILSTM_MAXLEN
     ]
-    tokens += [0] * (Config.BERT_MAX_LEN - len(tokens[: Config.BILSTM_MAXLEN]))
+    tokens += [0] * (Config.BILSTM_MAXLEN - len(tokens[: Config.BILSTM_MAXLEN]))
     return tokens
