@@ -17,7 +17,10 @@ import numpy as np
 
 
 class EmotionRoleLabeller:
+    """Emotion role labeller application for fine-tuned emotions."""
+
     def __init__(self) -> None:
+        """Initialize the entire pipeline. This would lead to initializing all the models."""
         # init role classifier
         # init role labeller
         # Create predictor
@@ -29,9 +32,26 @@ class EmotionRoleLabeller:
         self.embedding_model = get_embedding_model()
 
     def analyse(self, text):
+        """Run emotion analysis on a particular text.
+
+        Args:
+            text (str): Text to perform fine-tuned emotion analysis.
+
+        Returns:
+            dict: Dictionary containing information as follows:
+            {
+                "text": piece of text for analysis,
+                "emotion": Emotion of the text,
+                "roles":{
+                    "experiencer": part of string containing experiencer,
+                    "cue": part of string containing cue,
+                    "cause": part of string containing cause,
+                    "target":part of string containing target
+                }
+            }
+        """
         tokens = bilstm_preprocessing(text.lower())
         embeddings = self.embedding_model(np.expand_dims(np.array(tokens), axis=0))
-
         cue = self.cue(embeddings)
         target = self.target(embeddings)
         cause = self.cause(embeddings)
