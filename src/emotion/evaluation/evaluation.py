@@ -202,6 +202,17 @@ class Evaluation:
 
 
 def metric_for_bilstm(tx_emb, ty, model, contains_srl=False):
+    """Metric for evaluating the BiLSTM approach.
+
+    Args:
+        tx_emb ([type]): Embeddings containing token_ids, corresponding embeddings and srl feature if flag is ON!
+        ty ([type]): Gold labels associated with every token (Shape may vary in case of SRL flag on)
+        model ([type]): Keras model for inferencing.
+        contains_srl (bool, optional): SRL flag to intuit model for SRL features. Defaults to False.
+
+    Returns:
+        (float, float, float): Tuple of (Precision, recall and F1_score)
+    """
     if contains_srl:
         tx, emb, srl = tx_emb[0], tx_emb[1], tx_emb[2]
     else:

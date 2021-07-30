@@ -59,7 +59,17 @@ def conv2brown(tokens, labels):
 
 
 def get_counts(gold, pred, threshold: int = 0.8, return_indices=False):
+    """Get the counts of True positives and True Negatives from predictions.
 
+    Args:
+        gold ([List]): Contains the list of Gold labels/ True labels of a particular dataset
+        pred ([List]): Contains the predictions from a model.
+        threshold (int, optional): Threshold of overlap. Defaults to 0.8.
+        return_indices (bool, optional): Return the indices of a prediction. Defaults to False.
+
+    Returns:
+        (float, float, float): Returns the tuple of (True_positive, False_positive, False_negatives)
+    """
     tp = 0
     fp = 0
     fn = 0

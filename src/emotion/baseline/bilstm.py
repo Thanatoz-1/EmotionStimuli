@@ -1,3 +1,5 @@
+__author__ = "Tushar Dhyani"
+
 import tensorflow as tf
 from tensorflow import keras
 from ..config import Config
@@ -6,6 +8,19 @@ tf.random.set_seed(Config.SEED)
 
 
 def get_model(entity=None, maxlen: int = Config.BILSTM_MAXLEN, feat_len: int = 100):
+    """BiLSTM model with glove embedding as feature vector input.
+    This model is used for training and inferences in the framework.
+
+    Args:
+        entity (str, optional): The path of the saved models that you want to load.
+                                Defaults to None.
+        maxlen (int, optional): Maximum length of the sequence. This has can be changed from Config file.
+                                Defaults to Config.BILSTM_MAXLEN.
+        feat_len (int, optional): Dimension of glove feature vector. Defaults to 100.
+
+    Returns:
+        tensorflow.Model: Returns the trainable model which could be trained using Keras as well as Tensorflow.
+    """
     inp_sent = tf.keras.Input((maxlen, feat_len), name="input_embedding")
     x = tf.keras.layers.Conv1D(300, 3, activation="relu", name="CNN1", padding="same")(
         inp_sent

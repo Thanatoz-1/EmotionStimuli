@@ -1,3 +1,5 @@
+__author__ = "Tushar Dhyani"
+
 import tensorflow as tf
 from tensorflow import keras
 from ..config import Config
@@ -11,6 +13,17 @@ def get_srl_model(
     maxlen_srl: int = Config.MAX_VERBS,
     featrs: int = 100,
 ):
+    """Generates the SRL model for training and inferencing.
+
+    Args:
+        entity (str, optional): Preloaded model path for a particular entity. Defaults to None.
+        maxlen_sent (int, optional): Please tweak this from Config. Defaults to Config.BILSTM_MAXLEN.
+        maxlen_srl (int, optional): Please tweak this from Config. Defaults to Config.MAX_VERBS.
+        featrs (int, optional): length of features. Defaults to 100.
+
+    Returns:
+        tensorflow.Model: Returns the tensorflow model compatible with Keras and Tensorflow.
+    """
 
     inp_sent = tf.keras.Input((maxlen_sent, featrs), name="input_seq")
     inp_srl = tf.keras.Input((maxlen_srl, featrs), name="input_srl")

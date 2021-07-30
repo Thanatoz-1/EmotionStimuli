@@ -200,6 +200,15 @@ class HMM:
             self.transitionMatrix = pickle.load(f)
 
     def predictSentence(self, sentence: list, verbose=False):
+        """generates the predictions for a particular sentence.
+
+        Args:
+            sentence (list): List of tokens
+            verbose (bool, optional): Verbosity of the model. Defaults to False.
+
+        Returns:
+            List: Contains the predictions
+        """
         tokens = [(i.lower(), "O") for i in sentence]
         prediction = self.viterbi(tokens)
         if verbose:
@@ -210,6 +219,14 @@ class HMM:
         return prediction
 
     def predictDataset(self, dataset: Dataset):
+        """Function for trianing an entire corpus instead of single instances.
+
+        Args:
+            dataset (str): Name of dataset to be targetted
+
+        Returns:
+            None
+        """
         for id in dataset.instances:
             # print(id)
             # gold = dataset.instances[id].gold[self.label]
