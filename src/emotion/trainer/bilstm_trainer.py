@@ -7,6 +7,7 @@ from emotion.baseline.bilstm import get_model
 from emotion.config import Config
 from emotion.baseline import get_embedding_model
 from emotion.evaluation import metric_for_bilstm
+from sklearn.model_selection import train_test_split
 import numpy as np
 from tqdm import tqdm
 
@@ -14,7 +15,16 @@ tf.random.set_seed(Config.SEED)
 
 
 class Methods:
+    """Methods class for training the models end to end. This iterates on single label of every corpus."""
+
     def __init__(self, path: str, dataset: list, label: str) -> None:
+        """Methods for training the models.
+
+        Args:
+            path (str): Path to the datset json
+            dataset (list): List of dataset names to be trained upon
+            label (str): The label to be targetted for training. One of [Experiencer, Cause, Cue, Target]
+        """
         # take config from the
         self.dataset = json.load(open(path, "r"))
         self.data = {}
@@ -44,7 +54,29 @@ class Methods:
                         ]
         print(f"Loaded {len(self.data)} datapoints and {len(self.labels)} labels")
 
+    def split_data(self, data, splt: float = 0.8, random=False):
+        """Split data into testing and training.
+        Splits at <splt>%, but can be tuned using the argument.
+
+        Args:
+            data ([str]): data to perform split.
+            splt (float, optional): % data split. Defaults to 0.8.
+            random (bool, optional): sequential split or random split flag. Defaults to False.
+
+        Returns:
+            [type]: [description]
+        """
+        if random:
+            splt = int(len(data) * splt)
+            print(splt)
+            return (np.array(data[:splt]), np.array(data[splt:]))
+        else:
+            trx, tx = train_test_split(data, train_size=splt, random_state=Config.SEED)
+            return (trx, tx)
+
     def get_training_data(self):
+        """Get the training data and preprocess it."""
+
         def prepo_string(
             text: list,
             word2id: dict = Config.WORD2ID,
@@ -52,11 +84,13 @@ class Methods:
             unknown: str = "unk",
             padding: str = "pad",
         ):
+            """Clean strings inputs"""
             tokens = [word2id.get(i.lower(), word2id.get(unknown)) for i in text]
             tokens = tokens + ([word2id.get(padding)] * (maxlen - len(tokens)))
             return tokens[:maxlen]
 
         def id2string(ids: list, ids2word: list = Config.ID2WORD, padding: str = "pad"):
+            """Convert ids to strings"""
             res = [ids2word[i] for i in ids if ids2word != padding]
             return " ".join(res)
 
@@ -91,16 +125,11 @@ class Methods:
         return train_x, train_y
 
     def trainer(self):
+        """Train the model for given input and given target"""
         train_x, train_y = self.get_training_data()
         self.model = get_model()
-        tr_x, t_x = (
-            train_x[: int(len(train_x) * 0.8)],
-            train_x[int(len(train_x) * 0.8) :],
-        )
-        tr_y, t_y = (
-            train_y[: int(len(train_y) * 0.8)],
-            train_y[int(len(train_y) * 0.8) :],
-        )
+        tr_x, t_x = self.split_data(train_x, random=False)
+        tr_y, t_y = self.split_data(train_y, random=False)
         concat_tr_y = tf.keras.utils.to_categorical(tr_y)
         concat_t_y = tf.keras.utils.to_categorical(t_y)
         self.model.compile(
@@ -113,7 +142,9 @@ class Methods:
         train_emb = self.embedding_model.predict(tr_x)
         test_emb = self.embedding_model.predict(t_x)
         epochs = Config.EPOCHS
-        best_score = 0
+        best_f1 = 0
+        best_prec = 0
+        best_recall = 0
         for i in tqdm(range(epochs), total=epochs):
             hist = self.model.fit(
                 train_emb,
@@ -135,18 +166,11 @@ class Methods:
             print(
                 f"Testing dataset results on epoch {i+1} are: {test_prec:0.3f}, {test_rec:0.3f}, {test_f1:0.3f}"
             )
-            if test_f1 > best_score:
-                best_score = test_f1
-                self.model.save_weights("bilstm_role.h5")
+            if test_f1 > best_f1:
+                best_f1 = test_f1
+                best_prec = test_prec
+                best_recall = test_rec
+                self.model.save_weights(f"bilstm_{self.get_label}.h5")
 
-        print(f"The best validation score is : {best_score}")
-
-
-if __name__ == "__main__":
-    tst = Methods(
-        "/media/thanoz/Extention/UniversityProjects/EmotionStimuli/data/rectified-unified-with-offsets.json",
-        "reman",
-        "cause",
-    )
-    x, y = tst.get_training_data()
-    print(x.shape, y.shape)
+        print(f"The best validation score is : {best_f1}")
+        return {"best_prec": best_prec, "best_recall": best_recall, "best_f1": best_f1}

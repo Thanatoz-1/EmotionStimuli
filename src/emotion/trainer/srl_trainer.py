@@ -26,7 +26,14 @@ def pad_srl(feature, maxverbs: int = 10, maxlen: int = Config.BILSTM_MAXLEN):
 class Methods:
     def __init__(
         self, dataset_path: str, srl_path: str, dataset_name: list, label_name: str
-    ) -> None:
+    ):
+        """Methods for training the models.
+
+        Args:
+            path (str): Path to the datset json
+            dataset (list): List of dataset names to be trained upon
+            label (str): The label to be targetted for training. One of [Experiencer, Cause, Cue, Target]
+        """
         # take config from the
         self.dataset = json.load(open(dataset_path, "r"))
         self.srl_features_all = json.load(open(srl_path, "r"))
@@ -63,6 +70,17 @@ class Methods:
         print(f"Loaded {len(self.data)} datapoints and {len(self.labels)} labels")
 
     def split_data(self, data, splt: float = 0.8, random=False):
+        """Split data into testing and training.
+        Splits at <splt>%, but can be tuned using the argument.
+
+        Args:
+            data ([str]): data to perform split.
+            splt (float, optional): % data split. Defaults to 0.8.
+            random (bool, optional): sequential split or random split flag. Defaults to False.
+
+        Returns:
+            [type]: [description]
+        """
         if random:
             splt = int(len(data) * splt)
             print(splt)
@@ -72,6 +90,8 @@ class Methods:
             return (trx, tx)
 
     def get_training_data(self):
+        """Get the training data and preprocess it."""
+
         def prepo_string(
             text: list,
             word2id: dict = Config.WORD2ID,
@@ -121,11 +141,12 @@ class Methods:
         return train_x, concat_tr_y
 
     def trainer(self):
+        """Train the model for given input and given target"""
         train_x, train_y = self.get_training_data()
         self.model = get_srl_model()
-        tr_x, t_x = self.split_data(train_x, random=True)
-        tr_srl, t_srl = self.split_data(self.srl, random=True)
-        tr_y, t_y = self.split_data(train_y, random=True)
+        tr_x, t_x = self.split_data(train_x, random=False)
+        tr_srl, t_srl = self.split_data(self.srl, random=False)
+        tr_y, t_y = self.split_data(train_y, random=False)
         concat_tr_y = tf.keras.utils.to_categorical(tr_y)
         concat_t_y = tf.keras.utils.to_categorical(t_y)
         print("Shape of x: ", tr_x.shape, t_x.shape)
@@ -141,7 +162,9 @@ class Methods:
         train_emb = self.embedding_model.predict(tr_x)
         test_emb = self.embedding_model.predict(t_x)
         epochs = Config.EPOCHS
-        best_score = 0
+        best_f1 = 0
+        best_prec = 0
+        best_recall = 0
         for i in tqdm(range(epochs), total=epochs):
             hist = self.model.fit(
                 [train_emb, tr_srl],
@@ -163,11 +186,14 @@ class Methods:
             print(
                 f"Testing dataset results on epoch {i+1} are: {test_prec:0.3f}, {test_rec:0.3f}, {test_f1:0.3f}"
             )
-            if test_f1 > best_score:
-                best_score = test_f1
-                self.model.save_weights("bilstm_role.h5")
+            if test_f1 > best_f1:
+                best_f1 = test_f1
+                best_prec = test_prec
+                best_recall = test_rec
+                self.model.save_weights(f"srl_{self.get_label}.h5")
 
-        print(f"The best validation score is : {best_score}")
+        print(f"The best validation score is : {best_f1}")
+        return {"best_prec": best_prec, "best_recall": best_recall, "best_f1": best_f1}
 
 
 if __name__ == "__main__":
