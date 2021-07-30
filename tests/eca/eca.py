@@ -1,3 +1,5 @@
+__author__ = "Maximilian Wegge"
+
 from emotion.utils import Data, Dataset
 from emotion import HMM
 from emotion.evaluation import Evaluation
