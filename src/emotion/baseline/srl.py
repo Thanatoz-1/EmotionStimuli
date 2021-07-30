@@ -1,4 +1,4 @@
-__author__ = "Tushar Dhyani"
+__author__ = "Tushar Dhyani, Maximilian Wegge"
 
 import tensorflow as tf
 from tensorflow import keras

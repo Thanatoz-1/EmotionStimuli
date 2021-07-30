@@ -1,4 +1,9 @@
+__author__ = "Maximilian Wegge"
+
 # from .practnlptools import Annotator
+# This is a standalone file which we ran once to generate the SRL features.
+# As the import depends on other frameworl, it has been deprecated.
+# Please download and use the external library to use this module.
 
 
 def getsrl(srl_input):
