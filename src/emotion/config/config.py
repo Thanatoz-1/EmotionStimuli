@@ -24,10 +24,10 @@ class Config:
     BILSTM_MAXLEN = 100
     SEED = 2010
     EMBEDDING_WEIGHTS = "/home/thanoz/emotion_weights/embedding_backbone_weights.h5"
-    CAUSE_MODEL_PATH = "/home/thanoz/emotion_weights/entire_dataset_cause_len65.h5"
-    TARGET_MODEL_PATH = "/home/thanoz/emotion_weights/entire_dataset_target_len65.h5"
-    CUE_MODEL_PATH = "/home/thanoz/emotion_weights/entire_dataset_cue_len65.h5"
-    EXP_MODEL_PATH = "/home/thanoz/emotion_weights/entire_dataset_experiencer_len65.h5"
+    CAUSE_MODEL_PATH = "/home/thanoz/emotion_weights/bilstm_cause.h5"
+    TARGET_MODEL_PATH = "/home/thanoz/emotion_weights/bilstm_target.h5"
+    CUE_MODEL_PATH = "/home/thanoz/emotion_weights/bilstm_cue.h5"
+    EXP_MODEL_PATH = "/home/thanoz/emotion_weights/bilstm_experiencer.h5"
     BILSTM_CLASSES = {"O": 0, "B": 1, "I": 2, "PAD": 3}
-    EPOCHS = 10
+    EPOCHS = 20
     MAX_VERBS = 10
