@@ -1,4 +1,4 @@
-emotion.baseline package
+Emotion Baseline package
 ========================
 
 Submodules

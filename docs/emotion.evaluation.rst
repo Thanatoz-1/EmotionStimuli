@@ -1,5 +1,5 @@
-emotion.evaluation package
-==========================
+Emotione Evaluation package
+===========================
 
 Submodules
 ----------

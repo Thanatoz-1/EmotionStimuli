@@ -1,5 +1,5 @@
-emotion
-=======
+Documentation
+=============
 
 .. toctree::
    :maxdepth: 4

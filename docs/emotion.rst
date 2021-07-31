@@ -1,4 +1,4 @@
-emotion package
+Emotion package
 ===============
 
 Subpackages
@@ -10,6 +10,9 @@ Subpackages
    emotion.baseline
    emotion.evaluation
    emotion.utils
+   emotion.config
+   emotion.trainer
+   
 
 Module contents
 ---------------
