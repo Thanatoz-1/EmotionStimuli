@@ -1,4 +1,5 @@
 __author__ = "Maximilian Wegge"
+
 import copy, random
 from typing import Tuple
 from .metrics import calc_jaccard_score

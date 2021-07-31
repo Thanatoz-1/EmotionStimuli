@@ -1,4 +1,7 @@
 __author__ = "Tushar Dhyani"
+
+import os
+import pickle
 from ..utils import Dataset, counter, logging
 
 logger = logging.getLogger(__name__)
@@ -152,6 +155,9 @@ class HMM:
                 ('.','.')
             ]
         ]
+
+        Args:
+            dataset: Dataset = The list of data in the format mentioned above.
         """
         for id in dataset.instances:
             if self.label in dataset.instances[id].roles:
@@ -175,7 +181,34 @@ class HMM:
             for jdx, tagj in enumerate(self.uniqueTags):
                 self.transitionMatrix[idx][jdx] = self.prob_tag2_given_tag1(tagj, tagi)
 
+    def save(self, save_path: str = "~/.hmm"):
+        """Function for saving the HMM model weights.
+
+        Args:
+            save_path (str): the path to the pkl file. Defaults to "~/.hmm".
+        """
+        with open(os.path.join(save_path, "tm.pkl"), "wb") as f:
+            pickle.dump(self.transitionMatrix, f)
+
+    def load(self, load_path: str = "~/.hmm"):
+        """Function to load the pickle file from the path.
+
+        Args:
+            load_path (str): The path for the model weights (pkl file). Defaults to "~/.hmm".
+        """
+        with open(os.path.join(load_path, "tm.pkl"), "rb") as f:
+            self.transitionMatrix = pickle.load(f)
+
     def predictSentence(self, sentence: list, verbose=False):
+        """generates the predictions for a particular sentence.
+
+        Args:
+            sentence (list): List of tokens
+            verbose (bool, optional): Verbosity of the model. Defaults to False.
+
+        Returns:
+            List: Contains the predictions
+        """
         tokens = [(i.lower(), "O") for i in sentence]
         prediction = self.viterbi(tokens)
         if verbose:
@@ -186,6 +219,14 @@ class HMM:
         return prediction
 
     def predictDataset(self, dataset: Dataset):
+        """Function for trianing an entire corpus instead of single instances.
+
+        Args:
+            dataset (str): Name of dataset to be targetted
+
+        Returns:
+            None
+        """
         for id in dataset.instances:
             # print(id)
             # gold = dataset.instances[id].gold[self.label]

@@ -1,28 +1,30 @@
 <h1 align="center">Emotion Stimuli</h1>
+<hr style="height:10px;border-top:45px solid #fe0" />
 
 <div align="center">
 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Thanatoz-1/EmotionStimuli?style=for-the-badge)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Thanatoz-1/EmotionStimuli?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/Thanatoz-1/EmotionStimuli?style=for-the-badge)
+[![Documentation Status](https://readthedocs.org/projects/emotionstimuli/badge/?version=latest&style=for-the-badge)](https://emotionstimuli.readthedocs.io/en/latest/?badge=latest)
+
 </div>
+
+> For a detailed documentation of the project, refer <a href="https://emotionstimuli.readthedocs.io/">our documentations</a>.
 
 Emotion classification in text has wide array of applications which include sentiment tracking targetted towards politicians, movies, products, companies, identifying the emotion behind a newspaper headline etc. With the rapid proliferation of text based information processing and a number of social-media websites, there has been a increasing amount of emotion analysis and information mining for researched on newly available datasets. However, historical works has only been focusing solely on detecting certain emotion  ignoring questions such as ‘who feels the emotion? (Experiencer)’, 'towards whom the emotion is directed (Stimulus)?’, 'what provokes the emotion? (Cue)' and 'what is the cause of emotion? (Cause)'. This project has been targeted around the same task using a number of cues for identification of the stated spans. Have a look at the stated sentence below:
 
 <br/>
 
-![Project_Banner](docs/image/sentence_exmaple.jpg)
-Project from scratch on Emotion role labelling
+![explaination](docs/_static/image/sentence_exmaple.jpg)
 
-Welcome to the project. Please continue your work.
-
-## Installing the package 
+## Installing the package
 If you are running a linux machine with pip installed, then you can install the EmotionStimuli package using pip.
-```
+```bash
 pip install .
 ```
 In case if you have not installed pip or are facing trouble installing using git, you can install EmotionStimuli package using the provided setup.py
-```
+```bash
 python setup.py install
 ```
 
@@ -95,6 +97,8 @@ results.save_eval(eval_name="gne_exp", filename="output.json")
 # the evaluation was calculated.
 results.save_doc(filename="documentation.json")
 ```
+## Overview of our Baseline Framework
+![Project_Overview](docs/_static/image/baseline_overview.jpeg)
 
 ## Results
 
@@ -103,13 +107,14 @@ results.save_doc(filename="documentation.json")
 ### Baseline Approach
 <br/>
 
-![Project_Results](docs/image/results.jpg)
+![Project_Results](docs/_static/image/results.jpg)
 
-### Advanced Approach
-<br/>
+## Detailed documentations
+You can find the detailed documentations [here](https://emotionstimuli.readthedocs.io/en/latest/).
 
-![Project_Results](docs/image/results_advanced.png)
+## How to contribute
+Please adhere to the following steps in order to contribute to the project. The project uses [pep8](https://pep8.org/) styling guidelines for the entire codebase. Apart from that, the code is strictly formatted with [black](https://black.readthedocs.io/en/stable/) version `21.5b1`, please make sure to use the same formatter with your code to get your code accepted. 
 
 ## References
-1. Oberl&#228;nder, Laura Ana Maria  and Klinger, Roman; [Token Sequence Labeling vs. Clause Classification for {E}nglish Emotion Stimulus Detection](https://www.aclweb.org/anthology/2020.starsem-1.7); Proceedings of the Ninth Joint Conference on Lexical and Computational Semantics, Dec 2020; Association for Computational Linguistics
+1. Oberl&#228;nder, Laura Ana Maria  and Klinger, Roman; [Token Sequence Labeling vs. latest Classification for {E}nglish Emotion Stimulus Detection](https://www.aclweb.org/anthology/2020.starsem-1.7); Proceedings of the Ninth Joint Conference on Lexical and Computational Semantics, Dec 2020; Association for Computational Linguistics
 2. Mohammad, Saif  and Zhu, Xiaodan  and Martin, Joel; [Semantic Role Labeling of Emotions in Tweets](https://www.aclweb.org/anthology/W14-2607); Proceedings of the 5th Workshop on Computational Approaches to Subjectivity, Sentiment and Social Media Analysis; Jun 2014; Association for Computational Linguistics.

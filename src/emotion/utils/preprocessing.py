@@ -1,5 +1,12 @@
-__author__ = "Maximilian Wegge"
+__author__ = "Maximilian Wegge, Tushar Dhyani"
+
 from .file_reading import Data
+
+from .tokenizer import bert_tokenizer
+from ..config import Config
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
 
 
 class Dataset:
@@ -95,3 +102,39 @@ class Instance:
     def get_prd_annots(self) -> dict:
         """Return the predicted annotations of this instance."""
         return self.pred_annots
+
+
+def bert_preprocessing(text: str) -> dict:
+    """Bert preprocessing for encoding a piece of text to generate input_ids, attention_mask and token_type_ids
+
+    Args:
+        text (str): The text that you want to encode with BERT model defined in Config
+
+    Returns:
+        dict: Dict containing input_ids, attention_mask and token_type_ids
+    """
+
+    txt = bert_tokenizer.encode_plus(
+        text,
+        add_special_tokens=True,
+        padding="max_length",
+        max_length=65,
+        truncation=True,
+    )
+    return txt
+
+
+def bilstm_preprocessing(text: str):
+    """Preprocessing for BiLSTM model.
+
+    Args:
+        text (str): Text string for inferencing.
+
+    Returns:
+        List: Contains the tokens for embedding model.
+    """
+    tokens = [Config.WORD2ID.get(i.text, Config.WORD2ID.get("unk")) for i in nlp(text)][
+        : Config.BILSTM_MAXLEN
+    ]
+    tokens += [0] * (Config.BILSTM_MAXLEN - len(tokens[: Config.BILSTM_MAXLEN]))
+    return tokens

@@ -1,3 +1,4 @@
+__author__ = "Maximilian Wegge"
 from emotion import Data, Dataset, Instance, HMM, Evaluation
 
 gne_exp = Data(

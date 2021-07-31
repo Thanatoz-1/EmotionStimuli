@@ -80,7 +80,7 @@ def calc_recall(tp: int, fn: int) -> float:
     return recall
 
 
-def calc_fscore(prec: float, rec: float, beta: int) -> float:
+def calc_fscore(prec: float, rec: float, beta: int = 0.5) -> float:
     """Calculate f-score.
 
     Args:
