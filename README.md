@@ -101,6 +101,10 @@ results.save_doc(filename="documentation.json")
 ![Project_Overview](docs/_static/image/baseline_overview.jpeg)
 
 ## Results
+
+<br/>
+
+### Baseline Approach
 <br/>
 
 ![Project_Results](docs/_static/image/results.jpg)
