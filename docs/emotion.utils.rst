@@ -1,4 +1,4 @@
-emotion.utils package
+Emotion Utils package
 =====================
 
 Submodules
